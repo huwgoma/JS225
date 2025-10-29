@@ -23,19 +23,16 @@ class Game {
     let humanMark = this.#getMark().toUpperCase();
     let computerMark = humanMark === 'X' ? 'O' : 'X';
 
-    this.humanPlayer = new HumanPlayer(humanName, humanMark);
-    this.computerPlayer = new ComputerPlayer(computerMark);
+    this.players = [ new HumanPlayer(humanName, humanMark),
+                     new ComputerPlayer(computerMark) ];
 
-    console.log(this.humanPlayer, this.computerPlayer)
-    // only 1-p for now
-    // prompt name 
-    // prompt mark choice
-    // create players
-    // create board
-    // set current player
+    this.board = new Board();
+
+    this.currentPlayer = this.players.find(player => player.mark === 'X');
   }
 
   play() {
+    console.log(this);
     // welcome + rules
     // prompt name
     // prompt mark choice [X or O]
@@ -69,7 +66,7 @@ class Game {
 
   
   #getMark = prompt(
-    "Would you like to play as X or O?",
+    "Would you like to play as X or O? X will move first.",
     (mark) => ['X', 'O'].includes(mark.toUpperCase()),
     "Please enter either X or O."
   );
