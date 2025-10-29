@@ -5,6 +5,7 @@
 
 class Board {
   static sideLength = 3;
+  static maxSquare = Board.sideLength ** 2;
   #grid;
 
   constructor() {
@@ -36,7 +37,7 @@ class Board {
   }
 
   emptySquares() {
-    return this.#grid.reduce((result, square, index) => {
+    return this.#grid.flat().reduce((result, square, index) => {
       if (square === undefined) result.push(index + 1);
       return result;
     }, []);
@@ -54,7 +55,7 @@ class Board {
 
   #squareIsValid(square) {
     return !(Number.isNaN(square)) && 
-      square >= 1 && square <= this.#grid.length;
+      square >= 1 && square <= Board.maxSquare;
   }
 }
 
