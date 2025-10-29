@@ -4,7 +4,14 @@
 //   _, _, _, ]     7, 8, 9 ]
 
 class Board {
-  #grid = new Array(9);
+  #grid = Array.from({ length: 9 });
+
+  emptySquares() {
+    return this.#grid.reduce((result, square, index) => {
+      if (square === undefined) result.push(index + 1);
+      return result;
+    }, []);
+  }
 }
 
 module.exports = Board;
