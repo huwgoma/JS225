@@ -1,4 +1,7 @@
 const prompt = require('./prompt');
+const Board = require("./board");
+const { HumanPlayer, ComputerPlayer } = require("./player");
+
 
 // Main class for TTT games
 class Game {
@@ -15,9 +18,13 @@ class Game {
     'board. The first player to place 3 marks in any row, column, ' +
     'or diagonal wins!';
 
-  initialize() {
+  constructor() {
     let humanName = this.#getName();
-    let humanMark = this.#getMark();
+    let humanMark = this.#getMark().toUpperCase();
+    let computerMark = humanMark === 'X' ? 'O' : 'X';
+
+    this.humanPlayer = new HumanPlayer(humanName, humanMark);
+    this.computerPlayer = new ComputerPlayer(computerMark);
     // only 1-p for now
     // prompt name 
     // prompt mark choice
