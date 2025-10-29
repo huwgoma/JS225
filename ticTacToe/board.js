@@ -4,10 +4,33 @@
 //   _, _, _, ]     7, 8, 9 ]
 
 class Board {
+  static sideLength = 3;
   #grid;
 
-  constructor(sideLength = 3) {
-    this.#grid = Array.from({ length: sideLength ** 2 });
+  constructor() {
+    this.#grid = Array.from({ length: Board.sideLength ** 2 });
+  }
+
+  draw() {
+    const colSeparator = '|';
+    const rowSeparator = '---+---+---';
+    let row = [];
+
+    console.log("\n");
+    
+    this.#grid.forEach((square, index) => {
+      let squareNumber = index + 1;
+      let squareContents = square ?? squareNumber;
+      row.push(` ${squareContents} `);
+
+      if (squareNumber % Board.sideLength === 0) {
+        console.log(row.join(colSeparator));
+        if (squareNumber < this.#grid.length) console.log(rowSeparator);
+        row.length = 0;
+      }
+    });
+
+    console.log("\n");
   }
 
   emptySquares() {
