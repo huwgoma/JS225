@@ -5,4 +5,4 @@ const { Player, HumanPlayer, ComputerPlayer } = require("./player");
 
 Game.introduction();
 
-new Game().play();
+new Game().initialize().play();

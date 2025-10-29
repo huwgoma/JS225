@@ -4,9 +4,10 @@ const prompt = require('./prompt');
 class Game {
   static introduction() {
     console.log('Hello - Welcome to Tic Tac Toe!');
-    let seeRules = prompt("Would you like to see the rules? (Y/N)\n")();
+    let seeRules = prompt("Would you like to see the rules? (Y/N)")();
     
     if (seeRules.toUpperCase() === 'Y') console.log(Game.#rules);
+    console.log('='.repeat(30));
   }
 
   static #rules = 'Tic Tac Toe is a 2-player game where you and ' +
@@ -51,18 +52,18 @@ class Game {
     // - otherwise, print tie message
   }
 
-  static #seeRules = prompt("Would you like to see the rules? (Y/N)");
-
   #getName = prompt(
-    "What's your name?\n",
-    (name) => { name.length > 0 },
-    "Sorry, your name can't be empty"
-  )
+    "What's your name?",
+    (name) => name.length > 0,
+    "Sorry, your name can't be empty!"
+  );
 
   
-  #getMark() {
-    
-  }
+  #getMark = prompt(
+    "Would you like to play as X or O?",
+    (mark) => ['X', 'O'].includes(mark.toUpperCase()),
+    "Please enter either X or O."
+  );
 }
 
 module.exports = Game;
