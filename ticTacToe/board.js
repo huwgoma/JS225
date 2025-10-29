@@ -17,7 +17,7 @@ class Board {
     let row = [];
 
     console.log("\n");
-    
+
     this.#grid.forEach((square, index) => {
       let squareNumber = index + 1;
       let squareContents = square ?? squareNumber;
@@ -41,12 +41,18 @@ class Board {
   }
 
   emptyAt(square) {
-    square = Number(square);
-    if (Number.isNaN(square) || square < 1 || square > this.#grid.length) {
-      return false;
-    }
+    if (!this.#squareIsValid(Number(square))) return false;
 
     return this.#grid[square - 1] === undefined;
+  }
+
+  markAt(square, mark) {
+    this.#grid[square - 1] = mark;
+  }
+
+  #squareIsValid(square) {
+    return !(Number.isNaN(square)) && 
+      square >= 1 && square <= this.#grid.length;
   }
 }
 

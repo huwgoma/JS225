@@ -19,12 +19,14 @@ class Game {
     'or diagonal wins!';
 
   constructor() {
-    let humanName = this.#getName();
-    let humanMark = this.#getMark().toUpperCase();
+    let humanName = Game.#getName();
+    let humanMark = Game.#getMark().toUpperCase();
     let computerMark = humanMark === 'X' ? 'O' : 'X';
 
-    this.players = [ new HumanPlayer(humanName, humanMark),
-                     new ComputerPlayer(computerMark) ];
+    this.players = [ 
+      new HumanPlayer(humanName, humanMark, this.#getMove),
+      new ComputerPlayer(computerMark) 
+    ];
 
     this.board = new Board();
 
@@ -32,15 +34,16 @@ class Game {
   }
 
   play() {
-    console.log(this);
-    // welcome + rules
-    // prompt name
-    // prompt mark choice [X or O]
-    // create players ( player1, player2 )
-    // >> create HumanPlayer with mark choice
-    // >> create ComputerPlayer with other mark
-    // create board
-    // set currentPlayer = X Player
+    // Game Loop
+    do {
+      this.board.draw();
+      // display board
+      
+      let target = this.currentPlayer.getMove(this.board.emptySquares());
+      this.board.markAt(target, this.currentPlayer.mark);
+    } while (true); // while !gameOver
+
+    // Game Ending Logic
 
     // gameLoop
     // - getMove Loop:
@@ -58,18 +61,24 @@ class Game {
     // - otherwise, print tie message
   }
 
-  #getName = prompt(
+  // Prompt Methods
+  static #getName = prompt(
     "What's your name?",
     (name) => name.length > 0,
     "Sorry, your name can't be empty!"
   );
 
-  
-  #getMark = prompt(
+  static #getMark = prompt(
     "Would you like to play as X or O? X will move first.",
     (mark) => ['X', 'O'].includes(mark.toUpperCase()),
     "Please enter either X or O."
   );
+
+  #getMove = prompt(
+    "Please enter the square you'd like to mark (1-9).",
+    (square) => this.board.emptyAt(square),
+    "Sorry, that's not a valid (empty) square."
+  )
 }
 
 module.exports = Game;
