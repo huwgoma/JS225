@@ -12,12 +12,27 @@ class Player {
 }
 
 class HumanPlayer extends Player {
-  // Inherit default constructor()
+  #moveLogic;
+
+  constructor(name, mark, moveLogic) {
+    super(name, mark);
+    this.#moveLogic = moveLogic;
+  }
+  
+  getMove() {
+    return this.#moveLogic();
+  }
 }
 
 class ComputerPlayer extends Player {
   constructor(mark) {
     super('CPU', mark);
+  }
+
+  getMove(emptySquares) {
+    // Randomly select move for now
+    let randomIndex = Math.floor((Math.random() * emptySquares.length));
+    return emptySquares[randomIndex];
   }
 }
 
