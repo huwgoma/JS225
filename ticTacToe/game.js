@@ -25,6 +25,8 @@ class Game {
 
     this.humanPlayer = new HumanPlayer(humanName, humanMark);
     this.computerPlayer = new ComputerPlayer(computerMark);
+
+    console.log(this.humanPlayer, this.computerPlayer)
     // only 1-p for now
     // prompt name 
     // prompt mark choice

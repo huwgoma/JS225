@@ -11,8 +11,6 @@ function makePrompter(prompt, validator, error) {
 
     do {
       input = readLine.question(prompt + "\n").trim();
-
-      console.log(validator(input))
       if (!validator(input)) console.log(error + "\n");
 
     } while (!validator(input));
