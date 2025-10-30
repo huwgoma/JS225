@@ -24,7 +24,7 @@ class Game {
     let computerMark = humanMark === 'X' ? 'O' : 'X';
 
     this.players = [ 
-      new HumanPlayer(humanName, humanMark, this.#getMove),
+      new HumanPlayer(humanName, humanMark, this.#getHumanMove),
       new ComputerPlayer(computerMark) 
     ];
 
@@ -37,7 +37,7 @@ class Game {
     let gameState;
     // Game Loop
     do {
-      this.#clearScreen();
+      // this.#clearScreen();
       this.#drawBoard();
 
       let targetSquare = this.#getNextMove();
@@ -75,8 +75,7 @@ class Game {
   }
 
   #getNextMove() {
-    let emptySquares = this.board.emptySquares();
-    return this.currentPlayer.getMove(emptySquares);
+    return this.currentPlayer.getMove(this.board);
   }
 
   #markBoardAt(targetSquare, mark) {
@@ -112,7 +111,7 @@ class Game {
     "Please enter either X or O."
   );
 
-  #getMove = prompt(
+  #getHumanMove = prompt(
     "Please enter the square you'd like to mark (1-9).",
     (square) => this.board.emptyAt(square),
     "Sorry, that's not a valid (empty) square."

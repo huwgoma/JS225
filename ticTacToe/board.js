@@ -2,7 +2,10 @@
 class Board {
   static sideLength = 3;
   static maxSquare = Board.sideLength ** 2;
+  static squareNums = Array.from( { length: Board.maxSquare }, (_, i) => i + 1);
+  static centerSquare = Math.ceil(Board.maxSquare / 2);
   #grid;
+  
 
   constructor() {
     this.#grid = Array.from(
@@ -67,6 +70,34 @@ class Board {
     return this.emptySquares().length === 0;
   }
 
+  linesFor(...squares) {
+    if (squares.length === 0) squares = Board.squareNums;
+    let sqNums = [...squares].flat();
+    
+    return sqNums.reduce((lines, sqNum) => {
+      lines[sqNum] = this.#getLinesFor(sqNum);
+      return lines;
+    }, {});
+  }
+
+  #getLinesFor(square) {
+    let [ rowIndex, colIndex ] = this.#squareToIndex(square);
+    let lines = [];
+    
+    // Row + Column
+    lines.push(this.#gridRows()[rowIndex], 
+               this.#gridColumns()[colIndex]);
+
+    // Diagonal(s)
+    let diagonals = this.#gridDiagonals();
+    // TL -> BR
+    if (rowIndex === colIndex) lines.push(diagonals[0]);
+    // TR -> BL
+    if (rowIndex + colIndex === Board.sideLength - 1) lines.push(diagonals[1]);
+
+    return lines;
+  }
+
   // Win Conditions
   #winningLine(lines) {
     return lines.find(line => {
@@ -79,7 +110,7 @@ class Board {
   }
 
   #gridRows() {
-    return this.#grid;
+    return this.#grid.map(row => row.slice());
   }
 
   #gridColumns() {
