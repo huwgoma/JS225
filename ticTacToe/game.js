@@ -34,31 +34,63 @@ class Game {
   }
 
   play() {
+    let gameState;
     // Game Loop
     do {
-      this.board.draw();
-      // display board
-      
-      let target = this.currentPlayer.getMove(this.board.emptySquares());
-      this.board.markAt(target, this.currentPlayer.mark);
-    } while (true); // while !gameOver
+      // this.#clearScreen();
+      this.#drawBoard();
+
+      let targetSquare = this.#getNextMove();
+      this.#markBoardAt(targetSquare, this.currentPlayer.mark);
+
+      gameState = this.#getGameState();
+      console.log(gameState);
+      // if (gameState.over) break;
+
+      // this.#swapCurrentPlayer();
+
+      // winner: 
+      // 1) Check if there is a winning mark (Board.winningMark)
+      // 2) Find the player with the winning mark (null if none)
+
+      // over:
+      // 1) If there is a winner -> true
+      // 2) or if the board is full -> also true (tie)
+      // * otherwise false 
+
+    } while (!(gameState.over)); // while !gameOver
 
     // Game Ending Logic
+  }
 
-    // gameLoop
-    // - getMove Loop:
-    //  - currentPlayer.getMove
-    //  - if board.emptyAt(square), break out of getMove
-    //  - otherwise, log error: Square already occupied.
-    // - board.placePieceAt(square, mark)
-    // - check for gameEnd
-    //  -> check for winner -> set winner = currentPlayer -> break
-    //  -> check for tie -> break
-    // - Swap current player
+  // Gamestate Calculation
+  #getGameState() {
+    let winningMark = this.board.winningMark();
+    let winner = this.players.find(player => { 
+      return player.mark === winningMark;
+    });
 
-    // break (gameLoop done)
-    // - if winner exists, print win message
-    // - otherwise, print tie message
+    let over = !!winner || this.board.isFull();
+
+    return { over, winner };
+  }
+
+  // Game Loop Abstractions
+  #clearScreen() {
+    console.clear();
+  }
+
+  #drawBoard() {
+    this.board.draw();
+  }
+
+  #getNextMove() {
+    let emptySquares = this.board.emptySquares();
+    return this.currentPlayer.getMove(emptySquares);
+  }
+
+  #markBoardAt(targetSquare, mark) {
+    this.board.markAt(targetSquare, mark);
   }
 
   // Prompt Methods

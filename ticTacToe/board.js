@@ -60,6 +60,10 @@ class Board {
     return winningLine ? winningLine[0] : null;
   }
 
+  isFull() {
+    return this.emptySquares().length === 0;
+  }
+
   // Win Conditions
   #winningLine(lines) {
     return lines.find(line => {
