@@ -54,6 +54,7 @@ class Board {
 
   winningMark() {
     console.log(this.#gridColumns());
+    console.log(this.#gridDiagonals());
     // Return 'X', 'O', or null
     // representing the mark with 3 in a row in any row/col/dia
     // check rows for any row with 3 of the same marker
@@ -82,7 +83,20 @@ class Board {
   }
 
   #gridDiagonals() {
-    
+    const startPoints = [ [0, 0], [0, Board.sideLength - 1] ];
+    return startPoints.map((point, index) => {
+      let [ rowIndex, colIndex ] = point;
+      let [ rowStep, colStep ]   = index === 0 ? [1, 1] : [1, -1];
+
+      let diagonals = [];
+      for (let i = 0; i < Board.sideLength; i++) {
+        diagonals.push(this.#grid[rowIndex][colIndex]);
+        rowIndex += rowStep;
+        colIndex += colStep;
+      }
+
+      return diagonals;
+    })
   }
 
   #squareToIndex(square) {
