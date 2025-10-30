@@ -53,33 +53,28 @@ class Board {
   }
 
   winningMark() {
+    let winningLine = this.#winningLine(this.#gridRows()) ||
+                      this.#winningLine(this.#gridColumns()) ||
+                      this.#winningLine(this.#gridDiagonals());
 
-    console.log(this.#gridColumns());
-    console.log(this.#gridDiagonals());
-    // Return 'X', 'O', or null
-    // representing the mark with 3 in a row in any row/col/dia
-    // check rows for any row with 3 of the same marker
-    // >> all values === first value
-    // repeat with cols and dias (transpose then check)
+    return winningLine ? winningLine[0] : null;
   }
 
   // Win Conditions
-  
-  #winningRow() {
-    return this.#grid.find(row => {
-      let firstValue = row[0];
+  #winningLine(lines) {
+    return lines.find(line => {
+      let firstInLine = line[0];
 
-      return row.every(square => { 
-        return square !== undefined && (square === firstValue);
+      return line.every(square => {
+        return (square !== undefined) && (square === firstInLine);
       });
-    })
-    // return the row with 3 of the same mark, or null if none
+    });
   }
 
   #gridRows() {
     return this.#grid;
   }
-  
+
   #gridColumns() {
     return this.#grid.map((row, rowIndex) => {
       return row.map((_col, colIndex) => {
