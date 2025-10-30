@@ -37,31 +37,20 @@ class Game {
     let gameState;
     // Game Loop
     do {
-      // this.#clearScreen();
+      this.#clearScreen();
       this.#drawBoard();
 
       let targetSquare = this.#getNextMove();
       this.#markBoardAt(targetSquare, this.currentPlayer.mark);
 
       gameState = this.#getGameState();
-
       if (!(gameState.over)) this.#swapCurrentPlayer();
-      // if (gameState.over) break;
+    } while (!(gameState.over));
 
-      // this.#swapCurrentPlayer();
-
-      // winner: 
-      // 1) Check if there is a winning mark (Board.winningMark)
-      // 2) Find the player with the winning mark (null if none)
-
-      // over:
-      // 1) If there is a winner -> true
-      // 2) or if the board is full -> also true (tie)
-      // * otherwise false 
-
-    } while (!(gameState.over)); // while !gameOver
-
-    // Game Ending Logic
+    // End of Game
+    this.#clearScreen();
+    this.#drawBoard();
+    this.#displayResult(gameState);
   }
 
   // Gamestate Calculation
@@ -98,6 +87,16 @@ class Game {
     let nextIndex = Number(!this.players.indexOf(this.currentPlayer));
 
     this.currentPlayer = this.players[nextIndex];
+  }
+
+  #displayResult(gameState) {
+    console.log('Game over!');
+
+    if (gameState.winner) {
+      console.log(`${gameState.winner.name} wins this round!`);
+    } else {
+      console.log("It's a tie!");
+    }
   }
 
   // Prompt Methods
