@@ -53,6 +53,7 @@ class Board {
   }
 
   winningMark() {
+
     console.log(this.#gridColumns());
     console.log(this.#gridDiagonals());
     // Return 'X', 'O', or null
@@ -63,6 +64,7 @@ class Board {
   }
 
   // Win Conditions
+  
   #winningRow() {
     return this.#grid.find(row => {
       let firstValue = row[0];
@@ -74,6 +76,10 @@ class Board {
     // return the row with 3 of the same mark, or null if none
   }
 
+  #gridRows() {
+    return this.#grid;
+  }
+  
   #gridColumns() {
     return this.#grid.map((row, rowIndex) => {
       return row.map((_col, colIndex) => {
