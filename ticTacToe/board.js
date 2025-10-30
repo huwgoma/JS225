@@ -7,7 +7,10 @@ class Board {
   constructor() {
     this.#grid = Array.from(
       { length: Board.sideLength },
-      () => Array.from( { length: Board.sideLength } ),
+        () => Array.from( 
+          { length: Board.sideLength }, 
+          () => null,
+        ),
     );
   }
 
@@ -34,7 +37,7 @@ class Board {
 
   emptySquares() {
     return this.#grid.flat().reduce((memo, square, index) => { 
-      if (square === undefined) memo.push(index + 1);
+      if (square === null) memo.push(index + 1);
 
       return memo;
     }, []);
@@ -44,7 +47,7 @@ class Board {
     if (this.#invalidSquare(square)) return false;
 
     let [ rowIndex, colIndex ] = this.#squareToIndex(square);
-    return this.#grid[rowIndex][colIndex] === undefined;
+    return this.#grid[rowIndex][colIndex] === null;
   }
 
   markAt(square, mark) {
@@ -70,7 +73,7 @@ class Board {
       let firstInLine = line[0];
 
       return line.every(square => {
-        return (square !== undefined) && (square === firstInLine);
+        return (square !== null) && (square === firstInLine);
       });
     });
   }
