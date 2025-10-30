@@ -44,7 +44,8 @@ class Game {
       this.#markBoardAt(targetSquare, this.currentPlayer.mark);
 
       gameState = this.#getGameState();
-      console.log(gameState);
+
+      if (!(gameState.over)) this.#swapCurrentPlayer();
       // if (gameState.over) break;
 
       // this.#swapCurrentPlayer();
@@ -91,6 +92,12 @@ class Game {
 
   #markBoardAt(targetSquare, mark) {
     this.board.markAt(targetSquare, mark);
+  }
+
+  #swapCurrentPlayer() {
+    let nextIndex = Number(!this.players.indexOf(this.currentPlayer));
+
+    this.currentPlayer = this.players[nextIndex];
   }
 
   // Prompt Methods
