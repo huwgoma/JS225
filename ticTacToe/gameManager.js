@@ -2,14 +2,14 @@ const prompt = require('./prompt');
 const { HumanPlayer, ComputerPlayer } = require("./player");
 
 class GameManager {
-  #game;
+  #gameType;
 
-  constructor(game) {
-    this.#game = game;
+  constructor(gameType) {
+    this.#gameType = gameType;
   }
 
   start() {
-    this.#game.introduce();
+    this.#gameType.introduce();
     let playerName = GameManager.#getName();
     let playerMark = GameManager.#getMark();
     let computerMark = playerMark === 'X' ? 'O' : 'X';
@@ -17,7 +17,18 @@ class GameManager {
     let player = new HumanPlayer(playerName, playerMark, GameManager.#getMove);
     let cpu = new ComputerPlayer(computerMark);
 
-    GameManager.#getTargetScore();
+    let targetScore = parseInt(GameManager.#getTargetScore(), 10);
+
+    do { 
+      let game = new this.#gameType(player, cpu);
+      game.play();
+      let winner = game.state.winner;
+
+      if (winner) winner.addScore();
+    } while (player.score < targetScore && cpu.score < targetScore)
+
+    // End of Match
+    
     // introduce 
     // get names and mark preference
     // create players

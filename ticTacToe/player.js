@@ -1,14 +1,19 @@
 class Player {
   #name;
   #mark;
+  #score = 0;
 
   constructor(name, mark) {
     this.#name = name;
     this.#mark = mark.toUpperCase();
   }
 
-  get name() { return this.#name }
-  get mark() { return this.#mark }
+  get name()  { return this.#name }
+  get mark()  { return this.#mark }
+  get score() { return this.#score }
+  
+  addScore()   { this.#score += 1 }
+  resetScore() { this.#score = 0 }
 }
 
 class HumanPlayer extends Player {

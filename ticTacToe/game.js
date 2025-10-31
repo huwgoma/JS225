@@ -6,7 +6,7 @@ class Game {
   #players;
   #board;
   #currentPlayer;
-  #gameState;
+  #state = {};
 
   static introduce() {
     console.log('Hello - Welcome to Tic Tac Toe!');
@@ -25,8 +25,9 @@ class Game {
     this.#players = [ humanPlayer, computerPlayer ];
     this.#board = new Board();
     this.#currentPlayer = this.#players.find(player => player.mark === 'X');
-    this.#gameState = {};
   }
+
+  get state() { return Object.assign({}, this.#state) };
 
   play() {
     // Game Loop
@@ -35,23 +36,20 @@ class Game {
       this.#drawBoard();
 
       let targetSquare = this.#getNextMove();
-      this.#markBoardAt(targetSquare, this.currentPlayer.mark);
+      this.#markBoardAt(targetSquare, this.#currentPlayer.mark);
 
-      gameState = this.#getGameState();
-      if (!(gameState.over)) this.#swapCurrentPlayer();
-    } while (!(gameState.over));
+      this.#updatestate();
+      if (!(this.#state.over)) this.#swapCurrentPlayer();
+    } while (!(this.#state.over));
 
     // End of Game
     this.#clearScreen();
     this.#drawBoard();
-    this.#displayResult(gameState);
-
-    // Return gameState for scorekeeping 
-    return gameState;
+    this.#displayResult();
   }
 
-  // Gamestate Calculation
-  #getGameState() {
+  // state Calculation
+  #updatestate() {
     let winningMark = this.#board.winningMark();
     let winner = this.#players.find(player => { 
       return player.mark === winningMark;
@@ -59,7 +57,7 @@ class Game {
 
     let over = !!winner || this.#board.isFull();
 
-    return { over, winner };
+    Object.assign(this.#state, { over, winner });
   }
 
   // Game Loop Abstractions
@@ -72,7 +70,7 @@ class Game {
   }
 
   #getNextMove() {
-    return this.currentPlayer.getMove(this.#board);
+    return this.#currentPlayer.getMove(this.#board);
   }
 
   #markBoardAt(targetSquare, mark) {
@@ -80,16 +78,16 @@ class Game {
   }
 
   #swapCurrentPlayer() {
-    let nextIndex = Number(!this.#players.indexOf(this.currentPlayer));
+    let nextIndex = Number(!this.#players.indexOf(this.#currentPlayer));
 
-    this.currentPlayer = this.#players[nextIndex];
+    this.#currentPlayer = this.#players[nextIndex];
   }
 
-  #displayResult(gameState) {
+  #displayResult() {
     console.log('Game over!');
 
-    if (gameState.winner) {
-      console.log(`${gameState.winner.name} wins this round!`);
+    if (this.#state.winner) {
+      console.log(`${this.#state.winner.name} wins this round!`);
     } else {
       console.log("It's a tie!");
     }
