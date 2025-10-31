@@ -13,7 +13,6 @@ class Player {
   get score() { return this.#score }
   
   addScore()   { this.#score += 1 }
-  resetScore() { this.#score = 0 }
 }
 
 class HumanPlayer extends Player {

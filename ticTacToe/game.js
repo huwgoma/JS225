@@ -1,4 +1,4 @@
-const prompt = require('./prompt');
+const IO = require('./io');
 const Board = require("./board");
 
 // Main class for TTT games
@@ -10,7 +10,7 @@ class Game {
 
   static introduce() {
     console.log('Hello - Welcome to Tic Tac Toe!');
-    let seeRules = prompt("Would you like to see the rules? (Y/N)")();
+    let seeRules = IO.createPrompt("Would you like to see the rules? (Y/N)")();
     
     if (seeRules.toUpperCase() === 'Y') console.log(Game.#rules);
     console.log('='.repeat(30));
@@ -32,7 +32,8 @@ class Game {
   play() {
     // Game Loop
     do {
-      this.#clearScreen();
+      IO.clearScreen();
+      this.#players.forEach(p => console.log(p.name, p.score));
       this.#drawBoard();
 
       let targetSquare = this.#getNextMove();
@@ -43,7 +44,9 @@ class Game {
     } while (!(this.#state.over));
 
     // End of Game
-    this.#clearScreen();
+    IO.clearScreen();
+    this.#players.forEach(p => console.log(p.name, p.score));
+
     this.#drawBoard();
     this.#displayResult();
   }
@@ -61,10 +64,6 @@ class Game {
   }
 
   // Game Loop Abstractions
-  #clearScreen() {
-    console.clear();
-  }
-
   #drawBoard() {
     this.#board.draw();
   }
@@ -84,8 +83,6 @@ class Game {
   }
 
   #displayResult() {
-    console.log('Game over!');
-
     if (this.#state.winner) {
       console.log(`${this.#state.winner.name} wins this round!`);
     } else {
