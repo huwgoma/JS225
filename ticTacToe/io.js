@@ -20,7 +20,7 @@ class IO {
 
   static clearScreen() { console.clear() }
 
-  static getAnyKey() { IO.createPrompt("Press any key to continue:") }
+  static getAnyKey() { IO.createPrompt("Press any key to continue:")() }
 }
 
 class GameIO extends IO {

@@ -33,9 +33,6 @@ class GameManager {
       GameIO.displayResult(gameState);
 
       GameIO.getAnyKey();
-
-      let winner = game.state.winner;
-      if (winner) winner.addScore();
     } while (player.score < targetScore && cpu.score < targetScore)
 
     // End of Match
