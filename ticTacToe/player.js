@@ -4,7 +4,7 @@ class Player {
 
   constructor(name, mark) {
     this.#name = name;
-    this.#mark = mark;
+    this.#mark = mark.toUpperCase();
   }
 
   get name() { return this.#name }
