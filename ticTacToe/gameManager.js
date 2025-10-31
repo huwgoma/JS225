@@ -22,31 +22,19 @@ class GameManager {
     do { 
       let game = new this.#gameType(player, cpu);
       game.play();
-      let winner = game.state.winner;
+      
+      // Pause to display game result
+      GameManager.#getAnyKey();
 
+      let winner = game.state.winner;
       if (winner) winner.addScore();
     } while (player.score < targetScore && cpu.score < targetScore)
 
     // End of Match
-    
-    // introduce 
-    // get names and mark preference
-    // create players
-    // - human player: pass in prompting logic with a validator call
-    //    back that checks 
-    // ** without board
-    // play up to ___ wins
+    let [ finalWinner, finalLoser ] = [ player, cpu ].sort((p1, p2) => p2.score - p1.score);
 
-    // initialize score 
-    // until one player reaches target score
-    // - create new game
-    // -- get move (pass board to both human and cpu)
-    //  >> human: prompt, check against board for emptiness, return
-    // after game ends, get winner
-
-    // introduce?
-    // play up to ___ wins
-
+    console.log(`Good game! ${finalWinner.name} wins, ${finalWinner.score}-${finalLoser.score}!`);
+    console.log('Thanks for playing! See you again.');
   }
 
   // Prompt Methods
@@ -74,6 +62,7 @@ class GameManager {
     "Sorry, that's not a valid positive number."
   );
 
+  static #getAnyKey = prompt("Press any key to continue:");
 }
 
 module.exports = GameManager;
