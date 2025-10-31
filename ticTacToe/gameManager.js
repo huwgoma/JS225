@@ -36,7 +36,7 @@ class GameManager {
     } while (player.score < targetScore && cpu.score < targetScore)
 
     // End of Match
-    let [ finalWinner, finalLoser ] = [ player, cpu ].sort((p1, p2) => p2.score - p1.score);
+    let [ finalWinner, finalLoser ] = this.#sortByScore(player, cpu);
 
     console.log(`Game over! ${finalWinner.name} wins, ${finalWinner.score}-${finalLoser.score}!`);
     console.log('Thanks for playing!');
@@ -70,6 +70,10 @@ class GameManager {
   // Other Helpers
   #incrementScore(winner) {
     if (winner) winner.incrementScore();
+  }
+
+  #sortByScore(player1, player2) {
+    [ player1, player2 ].sort((p1, p2) => p2.score - p1.score);
   }
 }
 
