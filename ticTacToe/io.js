@@ -38,6 +38,12 @@ class GameIO extends IO {
     let scoreString = players.map(player => `${player.name}: ${player.score}`).join(' | ');
     console.log(`Current Score: ${scoreString}\n`);
   }
+
+  static displayFinalResult(winner, loser) {
+    console.log('Game over!');
+    console.log(`${winner.name} wins, ${winner.score}-${loser.score}!`);
+    console.log('Thanks for playing!');
+  }
 }
 
 module.exports = GameIO;

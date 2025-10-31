@@ -37,9 +37,7 @@ class GameManager {
 
     // End of Match
     let [ finalWinner, finalLoser ] = this.#sortByScore(player, cpu);
-
-    console.log(`Game over! ${finalWinner.name} wins, ${finalWinner.score}-${finalLoser.score}!`);
-    console.log('Thanks for playing!');
+    GameIO.displayFinalResult(finalWinner, finalLoser);
   }
 
   // Prompt Methods
@@ -73,7 +71,7 @@ class GameManager {
   }
 
   #sortByScore(player1, player2) {
-    [ player1, player2 ].sort((p1, p2) => p2.score - p1.score);
+    return [ player1, player2 ].sort((p1, p2) => p2.score - p1.score);
   }
 }
 
