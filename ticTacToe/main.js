@@ -1,11 +1,14 @@
 // Imports
 const Game = require("./game");
+const GameManager = require("./gameManager");
 
-Game.introduction();
+let session = new GameManager(Game);
 
-new Game().play();
+session.start();
+
+// Game.introduction();
+
+// GameManager.start();
+// new Game().play();
 
 
-// to do
-
-// change empty board square value to null (more explicit)

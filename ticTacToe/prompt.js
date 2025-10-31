@@ -6,14 +6,14 @@ const readLine = require("readline-sync");
 function makePrompter(prompt, validator, error) {
   validator ||= () => true;
 
-  return function() {
+  return function(...args) {
     let input = '';
 
     do {
       input = readLine.question(prompt + "\n").trim();
-      if (!validator(input)) console.log(error + "\n");
+      if (!validator(input, ...args)) console.log(error + "\n");
 
-    } while (!validator(input));
+    } while (!validator(input, ...args));
 
     return input;
   }

@@ -12,15 +12,15 @@ class Player {
 }
 
 class HumanPlayer extends Player {
-  #moveLogic;
+  #movePrompter;
 
-  constructor(name, mark, moveLogic) {
+  constructor(name, mark, movePrompter) {
     super(name, mark);
-    this.#moveLogic = moveLogic;
+    this.#movePrompter = movePrompter;
   }
   
-  getMove() {
-    return this.#moveLogic();
+  getMove(board) {
+    return this.#movePrompter(board);
   }
 }
 

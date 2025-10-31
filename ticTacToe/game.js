@@ -1,11 +1,14 @@
 const prompt = require('./prompt');
 const Board = require("./board");
-const { HumanPlayer, ComputerPlayer } = require("./player");
-
 
 // Main class for TTT games
 class Game {
-  static introduction() {
+  #players;
+  #board;
+  #currentPlayer;
+  #gameState;
+
+  static introduce() {
     console.log('Hello - Welcome to Tic Tac Toe!');
     let seeRules = prompt("Would you like to see the rules? (Y/N)")();
     
@@ -18,26 +21,17 @@ class Game {
     'board. The first player to place 3 marks in any row, column, ' +
     'or diagonal wins!';
 
-  constructor() {
-    let humanName = Game.#getName();
-    let humanMark = Game.#getMark().toUpperCase();
-    let computerMark = humanMark === 'X' ? 'O' : 'X';
-
-    this.players = [ 
-      new HumanPlayer(humanName, humanMark, this.#getHumanMove),
-      new ComputerPlayer(computerMark) 
-    ];
-
-    this.board = new Board();
-
-    this.currentPlayer = this.players.find(player => player.mark === 'X');
+  constructor(humanPlayer, computerPlayer) {
+    this.#players = [ humanPlayer, computerPlayer ];
+    this.#board = new Board();
+    this.#currentPlayer = this.#players.find(player => player.mark === 'X');
+    this.#gameState = {};
   }
 
   play() {
-    let gameState;
     // Game Loop
     do {
-      // this.#clearScreen();
+      this.#clearScreen();
       this.#drawBoard();
 
       let targetSquare = this.#getNextMove();
@@ -51,16 +45,19 @@ class Game {
     this.#clearScreen();
     this.#drawBoard();
     this.#displayResult(gameState);
+
+    // Return gameState for scorekeeping 
+    return gameState;
   }
 
   // Gamestate Calculation
   #getGameState() {
-    let winningMark = this.board.winningMark();
-    let winner = this.players.find(player => { 
+    let winningMark = this.#board.winningMark();
+    let winner = this.#players.find(player => { 
       return player.mark === winningMark;
     });
 
-    let over = !!winner || this.board.isFull();
+    let over = !!winner || this.#board.isFull();
 
     return { over, winner };
   }
@@ -71,21 +68,21 @@ class Game {
   }
 
   #drawBoard() {
-    this.board.draw();
+    this.#board.draw();
   }
 
   #getNextMove() {
-    return this.currentPlayer.getMove(this.board);
+    return this.currentPlayer.getMove(this.#board);
   }
 
   #markBoardAt(targetSquare, mark) {
-    this.board.markAt(targetSquare, mark);
+    this.#board.markAt(targetSquare, mark);
   }
 
   #swapCurrentPlayer() {
-    let nextIndex = Number(!this.players.indexOf(this.currentPlayer));
+    let nextIndex = Number(!this.#players.indexOf(this.currentPlayer));
 
-    this.currentPlayer = this.players[nextIndex];
+    this.currentPlayer = this.#players[nextIndex];
   }
 
   #displayResult(gameState) {
@@ -97,25 +94,6 @@ class Game {
       console.log("It's a tie!");
     }
   }
-
-  // Prompt Methods
-  static #getName = prompt(
-    "What's your name?",
-    (name) => name.length > 0,
-    "Sorry, your name can't be empty!"
-  );
-
-  static #getMark = prompt(
-    "Would you like to play as X or O? X will move first.",
-    (mark) => ['X', 'O'].includes(mark.toUpperCase()),
-    "Please enter either X or O."
-  );
-
-  #getHumanMove = prompt(
-    "Please enter the square you'd like to mark (1-9).",
-    (square) => this.board.emptyAt(square),
-    "Sorry, that's not a valid (empty) square."
-  )
 }
 
 module.exports = Game;
