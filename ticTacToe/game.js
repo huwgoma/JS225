@@ -1,4 +1,4 @@
-const IO = require('./io');
+const GameIO = require('./io');
 const Board = require("./board");
 
 // Main class for TTT games
@@ -10,7 +10,7 @@ class Game {
 
   static introduce() {
     console.log('Hello - Welcome to Tic Tac Toe!');
-    let seeRules = IO.createPrompt("Would you like to see the rules? (Y/N)")();
+    let seeRules = GameIO.createPrompt("Would you like to see the rules? (Y/N)")();
     
     if (seeRules.toUpperCase() === 'Y') console.log(Game.#rules);
     console.log('='.repeat(30));
@@ -32,27 +32,24 @@ class Game {
   play() {
     // Game Loop
     do {
-      IO.clearScreen();
-      this.#players.forEach(p => console.log(p.name, p.score));
-      this.#drawBoard();
+      GameIO.clearScreen();
+      GameIO.displayScore(this.#players);
+      this.drawBoard();
 
       let targetSquare = this.#getNextMove();
       this.#markBoardAt(targetSquare, this.#currentPlayer.mark);
 
-      this.#updatestate();
+      this.#updateState();
       if (!(this.#state.over)) this.#swapCurrentPlayer();
     } while (!(this.#state.over));
-
-    // End of Game
-    IO.clearScreen();
-    this.#players.forEach(p => console.log(p.name, p.score));
-
-    this.#drawBoard();
-    this.#displayResult();
   }
 
-  // state Calculation
-  #updatestate() {
+  drawBoard() {
+    GameIO.displayBoard(this.#board);
+  }
+
+  // State Calculation
+  #updateState() {
     let winningMark = this.#board.winningMark();
     let winner = this.#players.find(player => { 
       return player.mark === winningMark;
@@ -64,10 +61,6 @@ class Game {
   }
 
   // Game Loop Abstractions
-  #drawBoard() {
-    this.#board.draw();
-  }
-
   #getNextMove() {
     return this.#currentPlayer.getMove(this.#board);
   }
@@ -80,14 +73,6 @@ class Game {
     let nextIndex = Number(!this.#players.indexOf(this.#currentPlayer));
 
     this.#currentPlayer = this.#players[nextIndex];
-  }
-
-  #displayResult() {
-    if (this.#state.winner) {
-      console.log(`${this.#state.winner.name} wins this round!`);
-    } else {
-      console.log("It's a tie!");
-    }
   }
 }
 

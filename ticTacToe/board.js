@@ -17,25 +17,21 @@ class Board {
     );
   }
 
-  draw() {
+  toString() {
     const colSeparator = '|';
     const rowSeparator = '---+---+---';
-    let squareNum = 1;
 
-    this.#grid.forEach((row, rowIndex) => {
-      console.log(
-        row.map(square => {
-          let squareValue = square ?? squareNum;
-          squareNum++;
-          
-          return ` ${squareValue} `;
-        }).join(colSeparator)
-      );
+    return this.#grid.reduce((string, row, rowIndex) => {
+      let stringRow = row.map((square, colIndex) => {
+        let sqNum = this.#indexesToSquare(rowIndex, colIndex);
+        return ` ${square ?? sqNum} `;
+      }).join(colSeparator);
 
-      if (rowIndex < Board.sideLength - 1) console.log(rowSeparator);
-    });
+      string += `${stringRow}\n`;
+      if (rowIndex < Board.sideLength - 1) string += `${rowSeparator}\n`;
 
-    console.log("\n");
+      return string;
+    }, '');
   }
 
   emptySquares() {
@@ -49,12 +45,12 @@ class Board {
   emptyAt(square) {
     if (this.#invalidSquare(square)) return false;
 
-    let [ rowIndex, colIndex ] = this.#squareToIndex(square);
+    let [ rowIndex, colIndex ] = this.#squareToIndexes(square);
     return this.#grid[rowIndex][colIndex] === null;
   }
 
   markAt(square, mark) {
-    let [ rowIndex, colIndex ] = this.#squareToIndex(square);
+    let [ rowIndex, colIndex ] = this.#squareToIndexes(square);
     this.#grid[rowIndex][colIndex] = mark;
   }
 
@@ -81,7 +77,7 @@ class Board {
   }
 
   #getLinesFor(square) {
-    let [ rowIndex, colIndex ] = this.#squareToIndex(square);
+    let [ rowIndex, colIndex ] = this.#squareToIndexes(square);
     let lines = [];
     
     // Row + Column
@@ -138,7 +134,7 @@ class Board {
     })
   }
 
-  #squareToIndex(square) {
+  #squareToIndexes(square) {
     let sqNum = Number(square);
 
     let squareIndex = sqNum - 1;
@@ -146,6 +142,10 @@ class Board {
     let colIndex = squareIndex % Board.sideLength;
 
     return [rowIndex, colIndex];
+  }
+
+  #indexesToSquare(rowIndex, colIndex) {
+    return (rowIndex * Board.sideLength) + colIndex + 1;
   }
 
   #invalidSquare(square) {

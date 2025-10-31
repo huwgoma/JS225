@@ -12,7 +12,7 @@ class Player {
   get mark()  { return this.#mark }
   get score() { return this.#score }
   
-  addScore()   { this.#score += 1 }
+  incrementScore()   { this.#score += 1 }
 }
 
 class HumanPlayer extends Player {

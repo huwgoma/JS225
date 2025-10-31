@@ -1,8 +1,6 @@
 const readLine = require("readline-sync");
-// Return a function that, when invoked, prompts the user for 
-// input until a valid input is given.
-// - Validity is determined by the callback.
 
+// Input/Output Utilities
 class IO { 
   static createPrompt(prompt, validator, error) {
     validator ||= () => true;
@@ -21,6 +19,25 @@ class IO {
   }
 
   static clearScreen() { console.clear() }
+
+  static getAnyKey() { IO.createPrompt("Press any key to continue:") }
 }
 
-module.exports = IO;
+class GameIO extends IO {
+  static displayBoard(board) { console.log(board.toString()) }
+
+  static displayResult(state) {
+    if (state.winner) {
+      console.log(`${state.winner.name} wins this round!`);
+    } else {
+      console.log("It's a tie!");
+    }
+  }
+
+  static displayScore(players) {
+    let scoreString = players.map(player => `${player.name}: ${player.score}`).join(' | ');
+    console.log(`Current Score: ${scoreString}\n`);
+  }
+}
+
+module.exports = GameIO;
