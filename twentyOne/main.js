@@ -1,4 +1,7 @@
 // Twenty-One
+const Game = require('./game');
+
+new Game().play();
 
 
 // Twenty-One is a card game that is played by 2 participants - a 'player' and a 'dealer'.
