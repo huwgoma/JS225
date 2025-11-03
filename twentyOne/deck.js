@@ -1,3 +1,4 @@
+const shuffle = require('shuffle-array');
 const Card = require('./card');
 
 // Class for Card Deck
@@ -12,7 +13,7 @@ class Deck {
 
   constructor() {
     this.#addCards();
-    // shuffle  
+    this.#shuffle();
   }
 
   #addCards() {
@@ -24,7 +25,7 @@ class Deck {
   }
 
   #shuffle() {
-    
+    shuffle(this.#cards);
   }
 }
 
