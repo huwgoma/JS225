@@ -4,6 +4,9 @@ const { Player, Dealer } = require('./participant');
 
 // Game Class for Twenty-One
 class Game {
+  static #maxScore = 21;
+  static #faceCardValues = { 'Ace': 1, 'Jack': 10, 'Queen': 10, 'King': 10 };
+
   static introduce() {
     console.log("Welcome to Twenty-One!");
     console.log(Game.rules);
@@ -16,6 +19,8 @@ class Game {
     "least 17. Whoever has the higher hand total at that point wins." +
     "\n\nBe careful, though - if your hand total exceeds 21, you instantly lose!" +
     GameIO.horizontalRule;
+  
+  
 
   #deck;
   #player;
@@ -46,7 +51,7 @@ class Game {
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
     // // update gamestate
-    // if (this.#status[this.#player].busted) { return };
+    if (this.#state.get(this.#player).busted) { console.log('busted!')};
 
     // this.#dealerTurn();
     // // update gamestate
@@ -83,21 +88,18 @@ class Game {
 
       handScore = this.#calculateHandScore(this.#player.hand);
 
-      console.log(handScore)
-      // if this.#isBusted(handScore) {
-      //   this.#state.get(this.#player).busted = true;
-      //   return;
-      // }
-      
-      // 
-      
+      if (this.#isBusted(handScore)) { 
+        this.#state.get(this.#player).busted = true;
+        return;
+      }
+
       GameIO.displayHands(this.players);
     } while (playerMove === 'H');
 
     this.#state.get(this.#player).score // new score
-  }
 
-  static #faceCardValues = { 'Ace': 1, 'Jack': 10, 'Queen': 10, 'King': 10 };
+    // add interface methds for state
+  }
 
   #calculateHandScore(hand) {
     let acePresent = false;
@@ -112,6 +114,10 @@ class Game {
     }, 0);
 
     return (acePresent && preAceScore <= 11) ? preAceScore + 10 : preAceScore;
+  }
+
+  #isBusted(score) {
+    return score > Game.#maxScore;
   }
 }
 
