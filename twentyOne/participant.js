@@ -8,6 +8,9 @@ class Participant {
     this.#hand = [];
   }
 
+  get hand() { return this.#hand.slice() }
+  get name() { return this.#name }
+
   addToHand(...cards) {
     cards = cards.flat();
 

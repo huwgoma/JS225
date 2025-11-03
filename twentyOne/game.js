@@ -15,7 +15,7 @@ class Game {
     "After your turn is over, the dealer will hit until their hand totals at " +
     "least 17. Whoever has the higher hand total at that point wins." +
     "\n\nBe careful, though - if your hand total exceeds 21, you instantly lose!" +
-    "\n========================================================================";
+    GameIO.horizontalRule;
 
   #deck;
   #players;
@@ -26,14 +26,12 @@ class Game {
     let name = GameIO.getName();
     this.#players = [ new Player(name), new Dealer() ];
     this.#dealStartingCards();
-
-    // this.players.forEach(player => this.#deal(player, 2))
-    
-    
-    // Deal 2 cards to each player
   }
 
+  get players() { return this.#players.slice() }
+
   play() {
+    GameIO.displayHands(this.players);
     // Clear screen + display cards
     // Player turn (do while)
     // -- update gamestate
