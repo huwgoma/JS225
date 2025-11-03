@@ -31,7 +31,7 @@ class Game {
     let name = GameIO.getName();
     this.#player = new Player(name);
     this.#dealer = new Dealer(name);
-    this.#state = new Map([ [this.#player, {} ], [this.#dealer, {}] ]);
+    this.#state = { };
 
     this.#dealStartingCards();
   }
@@ -41,25 +41,30 @@ class Game {
   play() {
     GameIO.updateDisplay(this.players);
     
-    this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
+    this.#playerTurn();
     
-    if (this.#isBusted(this.#player)) return; // Instantly end game if busted
-    
+    if (this.#isBusted(this.#player)) {
+      this.#setEndgameState();
+      return;
+    }
+
     GameIO.updateDisplay(this.players, false);
+    
     this.#dealerTurn();
 
-    // this.#dealerTurn();
-    // // update gamestate
-
-    // Player turn (do while)
-    // -- update gamestate
-
-    // unless state[player].busted? => dealer turn
-    // -- update gamestate
+    // End of Game
+    this.#setEndgameState();
   }
 
   announceResult() {
-    // display game result based on end of game state
+    if (this.#state.busted) { 
+      console.log(`${this.#state.busted.name} went over ${Game.#bustLimit} and busted!`);
+      console.log(`${this.#state.winner.name} wins by default!`);
+    } else if (this.#state.tie) {
+      console.log(`It's a tie, ${this.#state.dealerScore}-${this.#state.playerScore}!`);
+    } else { 
+      console.log(`${this.#state.winner.name} wins, ${this.#state.dealerScore}-${this.#state.playerScore}!`);
+    }
   }
 
   // Game Abstractions
@@ -82,14 +87,12 @@ class Game {
 
       handScore = this.#calculateHandScore(this.#player.hand);
 
-      if (handScore > Game.#bustLimit) {
-        this.#setState(this.#player, 'busted', true);
-      }
+      if (handScore > Game.#bustLimit) this.#state.busted = this.#player;
 
       GameIO.updateDisplay(this.players);
     } while (playerMove === 'H' && !(this.#isBusted(this.#player)));
 
-    this.#setState(this.#player, 'score', handScore);
+    this.#state.playerScore = handScore;
   }
 
   #dealerTurn() {
@@ -101,37 +104,34 @@ class Game {
       this.#dealTo(this.#dealer);
       handScore = this.#calculateHandScore(this.#dealer.hand);
 
-      if (handScore > Game.#bustLimit) {
-        this.#setState(this.#dealer, 'busted', true);
-      }
-
-      setTimeout(() => { GameIO.updateDisplay(this.players, false) }, 1000);
-
-      // while dealer hand <= 17:
-      // - deal to dealer
-      // - update score locally
-      // - check for bust -> if bust, set state 
-      // display hands
-      // wait 2 seconds between each deal 
+      if (handScore > Game.#bustLimit) this.#state.busted = this.#dealer;
     }
-
-    // update score in state
+    
+    GameIO.updateDisplay(this.players, false)
+    this.#state.dealerScore = handScore;
   }
 
-  // Game State Helpers
-  #setState(player, key, value) {
-    this.#state.get(player)[key] = value;
+  #setEndgameState() {
+    if (this.#state.busted) { 
+      this.#state.loser  = this.#state.busted;
+      this.#state.winner = this.#findOtherPlayer(this.#state.loser);
+    } else if (this.#state.playerScore === this.#state.dealerScore) {
+      this.#state.tie = true;
+    } else {
+      this.#state.winner = this.#state.playerScore > this.#state.dealerScore ? this.#player : this.#dealer;
+      this.#state.loser  = this.#findOtherPlayer(this.#state.winner);
+    }
   }
 
-  #getState(player, key) {
-    return this.#state.get(player)[key];
+  // Other Helpers
+  #findOtherPlayer(player) {
+    return this.players.find(otherPlayer => otherPlayer !== player);
   }
 
   #isBusted(player) {
-    return this.#getState(player, 'busted');
+    return this.#state.busted === player;
   }
 
-  // Calculation Helpers
   #calculateHandScore(hand) {
     let acePresent = false;
 

@@ -42,7 +42,7 @@ class GameIO extends IO {
 
   static updateDisplay(players, hideDealer = true) {
     IO.clearScreen();
-    GameIO.#displayHands(players, hideDealer)
+    GameIO.#displayHands(players, hideDealer);
   }
 
   static #displayHands(players, hideDealer = true) {
