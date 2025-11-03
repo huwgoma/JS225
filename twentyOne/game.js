@@ -1,9 +1,16 @@
 // Game Class for Twenty-One
 class Game {
   static introduce() {
-    // Welcome
-    // Show rules
+    console.log("Welcome to Twenty-One!");
+    console.log(Game.rules);
   }
+
+  static rules = "Twenty One is a 2-player card game, played between you and " +
+    "a dealer. Each player starts with 2 cards in their hand. On your turn, " + 
+    "you can choose to either hit to draw a card, or stay to end your turn. " +
+    "After your turn is over, the dealer will hit until their hand totals at " +
+    "least 17. Whoever has the higher hand total at that point wins!" +
+    "\nBe careful, though - if your hand total exceeds 21, you instantly lose!";
 
   constructor() {
     // Prompt for player name
