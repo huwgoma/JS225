@@ -44,8 +44,9 @@ class Game {
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
     
-    console.log(this.#getState(this.#player, 'score'))
-    if (this.#getState(this.#player, 'busted')) { console.log('busted!')};
+    if (this.#isBusted(this.#player)) return; // Instantly end game if busted
+
+    this.#dealerTurn();
 
     // this.#dealerTurn();
     // // update gamestate
