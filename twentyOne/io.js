@@ -19,6 +19,9 @@ class IO {
   }
 
   static clearScreen() { console.clear() }
+
+  // Asynchronous Stuff
+
 }
 
 // Game-Specific IO Methods
@@ -37,11 +40,16 @@ class GameIO extends IO {
     (move) => move.toUpperCase()[0]
   )
 
-  static displayHands(players, hideDealerHand = true) {
+  static updateDisplay(players, hideDealer = true) {
+    IO.clearScreen();
+    GameIO.#displayHands(players, hideDealer)
+  }
+
+  static #displayHands(players, hideDealer = true) {
     const [ player, dealer ] = players;
 
     console.log(`${dealer.name}'s Hand:`);
-    GameIO.#displayHand(dealer.hand, hideDealerHand);
+    GameIO.#displayHand(dealer.hand, hideDealer);
     
     console.log(GameIO.horizontalRule);
 

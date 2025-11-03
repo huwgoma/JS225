@@ -39,13 +39,13 @@ class Game {
   get players() { return [ this.#player, this.#dealer ] }
 
   play() {
-    // Clear Screen
-    GameIO.displayHands(this.players);
+    GameIO.updateDisplay(this.players);
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
     
     if (this.#isBusted(this.#player)) return; // Instantly end game if busted
-
+    
+    GameIO.updateDisplay(this.players, false);
     this.#dealerTurn();
 
     // this.#dealerTurn();
@@ -86,10 +86,36 @@ class Game {
         this.#setState(this.#player, 'busted', true);
       }
 
-      GameIO.displayHands(this.players);
+      GameIO.updateDisplay(this.players);
     } while (playerMove === 'H' && !(this.#isBusted(this.#player)));
 
     this.#setState(this.#player, 'score', handScore);
+  }
+
+  #dealerTurn() {
+    console.log("Dealer's turn...");
+
+    let handScore = this.#calculateHandScore(this.#dealer.hand);
+
+    while (handScore <= 17 && !(this.#isBusted(this.#dealer))) {
+      this.#dealTo(this.#dealer);
+      handScore = this.#calculateHandScore(this.#dealer.hand);
+
+      if (handScore > Game.#bustLimit) {
+        this.#setState(this.#dealer, 'busted', true);
+      }
+
+      setTimeout(() => { GameIO.updateDisplay(this.players, false) }, 1000);
+
+      // while dealer hand <= 17:
+      // - deal to dealer
+      // - update score locally
+      // - check for bust -> if bust, set state 
+      // display hands
+      // wait 2 seconds between each deal 
+    }
+
+    // update score in state
   }
 
   // Game State Helpers
