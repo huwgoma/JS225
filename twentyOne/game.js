@@ -4,7 +4,7 @@ const { Player, Dealer } = require('./participant');
 
 // Game Class for Twenty-One
 class Game {
-  static #maxScore = 21;
+  static #bustLimit = 21;
   static #faceCardValues = { 'Ace': 1, 'Jack': 10, 'Queen': 10, 'King': 10 };
 
   static introduce() {
@@ -44,7 +44,7 @@ class Game {
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
     
-
+    console.log(this.#getState(this.#player, 'score'))
     if (this.#getState(this.#player, 'busted')) { console.log('busted!')};
 
     // this.#dealerTurn();
@@ -81,27 +81,27 @@ class Game {
 
       handScore = this.#calculateHandScore(this.#player.hand);
 
-      if (this.#isBusted(handScore)) { 
+      if (handScore > Game.#bustLimit) {
         this.#setState(this.#player, 'busted', true);
-        return;
       }
 
       GameIO.displayHands(this.players);
-    } while (playerMove === 'H');
+    } while (playerMove === 'H' && !(this.#isBusted(this.#player)));
 
-    this.#state.get(this.#player).score // new score
-
-    // add interface methds for state
+    this.#setState(this.#player, 'score', handScore);
   }
 
   // Game State Helpers
-  
   #setState(player, key, value) {
     this.#state.get(player)[key] = value;
   }
 
   #getState(player, key) {
     return this.#state.get(player)[key];
+  }
+
+  #isBusted(player) {
+    return this.#getState(player, 'busted');
   }
 
   // Calculation Helpers
@@ -118,10 +118,6 @@ class Game {
     }, 0);
 
     return (acePresent && preAceScore <= 11) ? preAceScore + 10 : preAceScore;
-  }
-
-  #isBusted(score) {
-    return score > Game.#maxScore;
   }
 }
 
