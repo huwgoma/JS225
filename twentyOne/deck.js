@@ -11,9 +11,9 @@ class Deck {
 
   #cards = [];
 
-  constructor() {
+  constructor(shuffle = true) {
     this.#addCards();
-    this.#shuffle();
+    if (shuffle) this.#shuffle();
   }
 
   #addCards() {
