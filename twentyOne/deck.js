@@ -17,8 +17,6 @@ class Deck {
   }
 
   draw(cardCount = 1) {
-    if (cardCount === 1) return this.#cards.pop();
-
     let cards = [];
     for (let i = 0; i < cardCount; i++) {
       cards.push(this.#cards.pop());

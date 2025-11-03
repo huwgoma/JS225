@@ -11,9 +11,7 @@ class Participant {
   get hand() { return this.#hand.slice() }
   get name() { return this.#name }
 
-  addToHand(...cards) {
-    cards = cards.flat();
-
+  addToHand(cards) {
     cards.forEach(card => this.#hand.push(card));
   }
 }

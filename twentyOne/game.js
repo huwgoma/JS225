@@ -30,7 +30,7 @@ class Game {
 
     let name = GameIO.getName();
     this.#player = new Player(name);
-    this.#dealer = new Dealer(name);
+    this.#dealer = new Dealer();
     this.#state = { };
 
     this.#dealStartingCards();
