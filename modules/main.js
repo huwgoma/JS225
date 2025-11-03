@@ -1,10 +1,10 @@
-// import * as Foo from "./foo.js";
-// import { bar, getCounter, items, counter } from "./bar.js";
 
-// console.log(Foo.xyz;
+// main.js
+import * as IO from "./io.js";
 
-// console.log(items);
+IO.clear();             // Clears the console
+IO.log('Hello World');  // Logs 'Hello World'
 
-// bar();
 
-// console.log(items);
+
+// 
