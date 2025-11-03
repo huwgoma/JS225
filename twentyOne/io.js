@@ -4,9 +4,7 @@ const readLine = require("readline-sync");
 class IO { 
   static horizontalRule = `\n${'='.repeat(80)}\n`;
 
-  static createPrompt(prompt, validator, error) {
-    validator ||= () => true;
-
+  static createPrompt(prompt, validator = () => true, error, transformer = (t) => t) {
     return function(...args) {
       let input = '';
 
@@ -15,8 +13,8 @@ class IO {
         if (!validator(input, ...args)) console.log(error + "\n");
 
       } while (!validator(input, ...args));
-
-      return input;
+      
+      return transformer(input);
     }
   }
 
@@ -25,10 +23,18 @@ class IO {
 
 // Game-Specific IO Methods
 class GameIO extends IO {
-  static getName = GameIO.createPrompt(
+  static getName = IO.createPrompt(
     "What's your name?",
     (name) => name.trim().length > 0,
-    "Sorry, your name can't be empty!"
+    "Sorry, your name can't be empty!",
+    (name) => name.trim()
+  )
+
+  static getPlayerMove = IO.createPrompt(
+    "Would you like to Hit (H) or Stay (S)?",
+    (move) => ['H', 'S'].includes(move.toUpperCase()[0]),
+    "Sorry, please enter H to Hit (Draw) and S to Stay (Pass).",
+    (move) => move.toUpperCase()[0]
   )
 
   static displayHands(players, hideDealerHand = true) {

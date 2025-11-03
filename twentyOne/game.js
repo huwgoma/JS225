@@ -19,6 +19,7 @@ class Game {
 
   #deck;
   #players;
+  #status
 
   constructor() {
     this.#deck = new Deck();
@@ -31,8 +32,16 @@ class Game {
   get players() { return this.#players.slice() }
 
   play() {
+    // Clear Screen
     GameIO.displayHands(this.players);
-    // Clear screen + display cards
+    
+    this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
+    // // update gamestate
+    // if (this.#status[this.#player].busted) { return };
+
+    // this.#dealerTurn();
+    // // update gamestate
+
     // Player turn (do while)
     // -- update gamestate
 
@@ -53,6 +62,16 @@ class Game {
 
   #dealTo(player, cardCount = 1) {
     player.addToHand(this.#deck.draw(cardCount));
+  }
+
+  #playerTurn() {
+    let playerMove;
+
+    do {
+      playerMove = GameIO.getPlayerMove();
+      
+      GameIO.displayHands();
+    } while (playerMove === 'H'); // && !playerBusted
   }
 }
 
