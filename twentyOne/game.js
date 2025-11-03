@@ -1,4 +1,5 @@
 const GameIO = require('./io');
+const Deck = require('./deck');
 
 // Game Class for Twenty-One
 class Game {
@@ -17,6 +18,9 @@ class Game {
 
   constructor() {
     let name = GameIO.getName();
+    this.deck = new Deck();
+
+    
     // Prompt for player name
     // Create shuffled deck
     // Create player + dealer

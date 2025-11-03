@@ -11,3 +11,5 @@ class Card {
   get suit() { return this.#suit }
   get face() { return this.#face }
 }
+
+module.exports = Card;
