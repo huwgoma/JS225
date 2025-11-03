@@ -44,9 +44,8 @@ class Game {
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
     
-    if (this.playerState.busted)
 
-    if (this.#state.get(this.#player).busted) { console.log('busted!')};
+    if (this.#getState(this.#player, 'busted')) { console.log('busted!')};
 
     // this.#dealerTurn();
     // // update gamestate
@@ -83,7 +82,7 @@ class Game {
       handScore = this.#calculateHandScore(this.#player.hand);
 
       if (this.#isBusted(handScore)) { 
-        this.#state.get(this.#player).busted = true;
+        this.#setState(this.#player, 'busted', true);
         return;
       }
 
@@ -96,8 +95,13 @@ class Game {
   }
 
   // Game State Helpers
-  #playerState() {
+  
+  #setState(player, key, value) {
+    this.#state.get(player)[key] = value;
+  }
 
+  #getState(player, key) {
+    return this.#state.get(player)[key];
   }
 
   // Calculation Helpers
