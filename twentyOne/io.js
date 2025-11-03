@@ -20,3 +20,14 @@ class IO {
 
   static clearScreen() { console.clear() }
 }
+
+// Game-Specific IO Methods
+class GameIO {
+  static getName = IO.createPrompt(
+    "What's your name?",
+    (name) => name.trim().length > 0,
+    "Sorry, your name can't be empty!"
+  )
+}
+
+module.exports = GameIO;
