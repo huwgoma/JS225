@@ -19,17 +19,11 @@ class Game {
     "least 17. Whoever has the higher hand total at that point wins." +
     "\n\nBe careful, though - if your hand total exceeds 21, you instantly lose!" +
     GameIO.horizontalRule;
-  
-  
 
   #deck;
   #player;
   #dealer;
-  #players;
   #state;
-
-  // To do: 
-  // - Refactor player/dealer/players representation
 
   constructor() {
     this.#deck = new Deck();
@@ -37,20 +31,21 @@ class Game {
     let name = GameIO.getName();
     this.#player = new Player(name);
     this.#dealer = new Dealer(name);
-    this.#players = [ this.#player, this.#dealer ];
     this.#state = new Map([ [this.#player, {} ], [this.#dealer, {}] ]);
 
     this.#dealStartingCards();
   }
 
-  get players() { return this.#players.slice() }
+  get players() { return [ this.#player, this.#dealer ] }
 
   play() {
     // Clear Screen
     GameIO.displayHands(this.players);
     
     this.#playerTurn(); // loop until stay or bust; update gamestate before ending playerturn
-    // // update gamestate
+    
+    if (this.playerState.busted)
+
     if (this.#state.get(this.#player).busted) { console.log('busted!')};
 
     // this.#dealerTurn();
@@ -69,9 +64,8 @@ class Game {
 
   // Game Abstractions
   #dealStartingCards() {
-    this.#players.forEach(player => {
-      this.#dealTo(player, 2);
-    });
+    this.#dealTo(this.#player, 2);
+    this.#dealTo(this.#dealer, 2);
   }
 
   #dealTo(player, cardCount = 1) {
@@ -101,6 +95,12 @@ class Game {
     // add interface methds for state
   }
 
+  // Game State Helpers
+  #playerState() {
+
+  }
+
+  // Calculation Helpers
   #calculateHandScore(hand) {
     let acePresent = false;
 
