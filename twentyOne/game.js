@@ -18,6 +18,8 @@ class Game {
     GameIO.horizontalRule;
 
   #deck;
+  #player;
+  #dealer;
   #players;
   #status
 
@@ -25,7 +27,10 @@ class Game {
     this.#deck = new Deck();
 
     let name = GameIO.getName();
-    this.#players = [ new Player(name), new Dealer() ];
+    this.#player = new Player(name);
+    this.#dealer = new Dealer(name);
+    this.#players = [ this.#player, this.#dealer ];
+
     this.#dealStartingCards();
   }
 
@@ -69,8 +74,12 @@ class Game {
 
     do {
       playerMove = GameIO.getPlayerMove();
+
+      if (playerMove === 'H') this.#dealTo(this.#player);
+      // if hit => draw 
+      // 
       
-      GameIO.displayHands();
+      GameIO.displayHands(this.players);
     } while (playerMove === 'H'); // && !playerBusted
   }
 }
