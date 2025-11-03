@@ -21,7 +21,10 @@ class Game {
   #player;
   #dealer;
   #players;
-  #status
+  #state;
+
+  // To do: 
+  // - Refactor player/dealer/players representation
 
   constructor() {
     this.#deck = new Deck();
@@ -30,6 +33,7 @@ class Game {
     this.#player = new Player(name);
     this.#dealer = new Dealer(name);
     this.#players = [ this.#player, this.#dealer ];
+    this.#state = new Map([ [this.#player, {} ], [this.#dealer, {}] ]);
 
     this.#dealStartingCards();
   }
@@ -71,16 +75,43 @@ class Game {
 
   #playerTurn() {
     let playerMove;
+    let handScore;
 
     do {
       playerMove = GameIO.getPlayerMove();
-
       if (playerMove === 'H') this.#dealTo(this.#player);
-      // if hit => draw 
+
+      handScore = this.#calculateHandScore(this.#player.hand);
+
+      console.log(handScore)
+      // if this.#isBusted(handScore) {
+      //   this.#state.get(this.#player).busted = true;
+      //   return;
+      // }
+      
       // 
       
       GameIO.displayHands(this.players);
-    } while (playerMove === 'H'); // && !playerBusted
+    } while (playerMove === 'H');
+
+    this.#state.get(this.#player).score // new score
+  }
+
+  static #faceCardValues = { 'Ace': 1, 'Jack': 10, 'Queen': 10, 'King': 10 };
+
+  #calculateHandScore(hand) {
+    let acePresent = false;
+
+    let preAceScore = hand.reduce((score, card) => {
+      let faceValue = card.face;
+      if (faceValue === 'Ace') acePresent = true;
+
+      score += Game.#faceCardValues[faceValue] || Number(faceValue);
+
+      return score;
+    }, 0);
+
+    return (acePresent && preAceScore <= 11) ? preAceScore + 10 : preAceScore;
   }
 }
 
