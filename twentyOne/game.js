@@ -17,14 +17,19 @@ class Game {
     "\n\nBe careful, though - if your hand total exceeds 21, you instantly lose!" +
     "\n========================================================================";
 
+  #deck;
+  #players;
+
   constructor() {
-    this.deck = new Deck();
+    this.#deck = new Deck();
 
     let name = GameIO.getName();
-    this.players = [ new Player(name), new Dealer() ];
-    // Prompt for player name
-    // Create shuffled deck
-    // Create player + dealer
+    this.#players = [ new Player(name), new Dealer() ];
+    this.#dealStartingCards();
+
+    // this.players.forEach(player => this.#deal(player, 2))
+    
+    
     // Deal 2 cards to each player
   }
 
@@ -39,6 +44,17 @@ class Game {
 
   announceResult() {
     // display game result based on end of game state
+  }
+
+  // Game Abstractions
+  #dealStartingCards() {
+    this.#players.forEach(player => {
+      this.#dealTo(player, 2);
+    });
+  }
+
+  #dealTo(player, cardCount = 1) {
+    player.addToHand(this.#deck.draw(cardCount));
   }
 }
 

@@ -7,6 +7,12 @@ class Participant {
     this.#name = name;
     this.#hand = [];
   }
+
+  addToHand(...cards) {
+    cards = cards.flat();
+
+    cards.forEach(card => this.#hand.push(card));
+  }
 }
 
 class Player extends Participant {
