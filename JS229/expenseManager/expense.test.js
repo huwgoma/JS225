@@ -1,5 +1,13 @@
-const sum = require('./expense');
+const Expense = require('./expense');
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('valid expense has id/amount/date/category', () => {
+  let today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  let chipotle = new Expense(1, 13, today, 'Food');
+
+  expect(chipotle.id).toBe(1);
+  expect(chipotle.amount).toBe(13);
+  expect(chipotle.date).toBe(today);
+  expect(chipotle.category).toBe('Food');
 });
