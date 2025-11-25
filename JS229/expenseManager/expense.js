@@ -8,7 +8,7 @@ class Expense {
     if (this.#isValid(id, amount, date, category)) {
       this.#id       = id;
       this.#amount   = amount;
-      this.#date     = date;
+      this.#date     = this.#dateOnly(date);
       this.#category = category;
     } else {
       return { invalid: true }
@@ -24,12 +24,18 @@ class Expense {
   get date()     { return this.#date }
   get category() { return this.#category }
 
+  #dateOnly(date) {
+    let newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+
+    return newDate;
+  }
+
   // Expense Validation
   #isValid(id, amount, date, category) {
     return (
-      this.#allFieldsGiven(id, amount, date, category) 
-      // &&
-      // this.#dateIsValid(date) 
+      this.#allFieldsGiven(id, amount, date, category) &&
+      this.#dateIsValid(date) 
     // &&
     //   this.#amountIsValid(amount) &&
     //   this.#categoryIsValid(category)
@@ -43,6 +49,13 @@ class Expense {
   #allFieldsGiven(...args) {
     return args.length === 4 &&
            args.every(arg => arg !== undefined);
+  }
+
+  #dateIsValid(date) {
+    let today = this.#dateOnly(new Date());
+    let dateCopy = this.#dateOnly(date);
+
+    return dateCopy <= today;
   }
 }
 
