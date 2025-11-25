@@ -7,8 +7,16 @@ class ExpenseManager {
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
 
+  summarize() {
+    console.log()
+    // total spent, average amount, count (# of expenses)
+  }
+
   addExpense(amount, date, category) {
-    if (!(this.#categories.includes(category))) console.log('Invalid expense category.');
+    if (!(this.#categories.includes(category))) { 
+      console.log('Invalid expense category.');
+      return;
+    }
 
     try {
       let newExpense = new Expense(this.#generateID(), amount, date, category);
@@ -19,15 +27,30 @@ class ExpenseManager {
     }
   }
 
+  // removeExpense(id) {
+  //   let expense = this.#findExpense(id);
+
+  //   if (expense) {
+  //     let indexOfExpense = this.#expenses.indexOf(expense);
+  //     this.#expenses.splice(indexOfExpense, 1);
+  //     console.log(`Expense #${id} successfully deleted.`);
+  //   } else {
+  //     console.log(`That expense (id = ${id}) could not be found.`);
+  //   }
+  // }
+
+  // Helpers
   #generateID = (function() {
     let nextID = 0;
 
     return function() { return nextID++ }
   })();
 
+  #findExpense(id) {
+    return this.#expenses.find(expense => expense.id === id);
+  }
 
-
-  // Add a new expense.
+  
   // Remove an expense by id.
   // Summarize expenses (total spent, average amount, and count).
   // Filter expenses by a date range.
