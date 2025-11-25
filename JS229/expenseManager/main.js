@@ -70,3 +70,6 @@ manager.addCategory('Bills');    //=> Logs 'Successfully added Bills as a new ca
 console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health', 'Bills']
 // - Can then add Bill expenses
 manager.addExpense(10, today, 'Bills'); // #10 (Successfully added expense!)
+
+
+// Budget Expense Manager

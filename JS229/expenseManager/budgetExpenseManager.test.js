@@ -28,4 +28,31 @@ test('logs remaining budget out of total', () => {
 
   budgetManager.logSummary();
   expect(logSpy).toHaveBeenLastCalledWith('Budget Remaining:   $500.00/$500.00');
-})
+});
+
+
+// Adding expenses
+test('it subtracts the correct amount from remaining budget', () => {
+  let budgetManager = new BudgetExpenseManager(500);
+
+  budgetManager.addExpense(250, today, 'Entertainment');
+
+  expect(budgetManager.remainingBudget).toBe(250);
+});
+
+test('it prevents adding an expense if too expensive', () => {
+  let budgetManager = new BudgetExpenseManager(500);
+
+  budgetManager.addExpense(501, today, 'Entertainment');
+
+  expect(logSpy).toHaveBeenCalledWith('Budget exceeded! Cannot add expense.');
+  expect(budgetManager.remainingBudget).toBe(500);
+});
+
+test('zeroing out is okay', () => {
+  let budgetManager = new BudgetExpenseManager(500);
+
+  budgetManager.addExpense(500, today, 'Entertainment');
+
+  expect(budgetManager.remainingBudget).toBe(0);
+});

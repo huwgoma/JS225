@@ -2,7 +2,7 @@ const ExpenseManager = require('./expenseManager');
 
 class BudgetExpenseManager extends ExpenseManager {
   #remainingBudget;
-  #budgetLimit;
+  #totalBudget;
 
   get remainingBudget() { return this.#remainingBudget }  
 
@@ -12,23 +12,23 @@ class BudgetExpenseManager extends ExpenseManager {
     } 
     
     super();
-    this.#budgetLimit = limit;
+    this.#totalBudget = limit;
     this.#remainingBudget = limit;
   }
 
   logSummary() {
     super.logSummary();
-    console.log(`Budget Remaining:   $${this.#remainingBudget.toFixed(2)}/$${this.#budgetLimit.toFixed(2)}`);
+    console.log(`Budget Remaining:   $${this.#remainingBudget.toFixed(2)}/$${this.#totalBudget.toFixed(2)}`);
   }
   
   addExpense(amount, date, category) {
-    // verify that currentAmount + amount <= limit 
-    // 
-    // then create and add expense as normal
-    // - subtract amount from remainingBudget
-  }
-
-  
+    if (this.#remainingBudget - amount < 0) {
+      console.log('Budget exceeded! Cannot add expense.');
+    } else {
+      super.addExpense(amount, date, category);
+      this.#remainingBudget -= amount;
+    }
+  } 
 }
 
 module.exports = BudgetExpenseManager;
