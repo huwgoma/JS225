@@ -51,8 +51,20 @@ test('expenses must have all fields', () => {
   expect(chipotleMissingCategory4.invalid).toBe(true);
 });
 
+// > Invalid Dates
+test('expense date must be a date', () => {
+  let badDateChipotle = new Expense(1, 13, 'not a date', 'Food');
+
+  expect(badDateChipotle.invalid).toBe(true);
+});
+
 test('expense date cannot be in the future', () => {
   let chipotleFromTheFuture = new Expense(1, 13, tomorrow, 'Food');
 
   expect(chipotleFromTheFuture.invalid).toBe(true);
+});
+
+test('expense amount must be positive', () => {
+  let negativePriceChipotle = new Expense(1, -13, today, 'Food');
+  let freeChipotle = new Expense(1, 0, today, 'Food');
 });

@@ -52,6 +52,8 @@ class Expense {
   }
 
   #dateIsValid(date) {
+    if (!(date instanceof Date)) return false;
+    
     let today = this.#dateOnly(new Date());
     let dateCopy = this.#dateOnly(date);
 
