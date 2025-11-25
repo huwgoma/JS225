@@ -11,7 +11,7 @@ class Expense {
       this.#date     = this.#dateOnly(date);
       this.#category = category;
     } else {
-      return { invalid: true };
+      throw new Error('Invalid expense data given!');
     }
   }
 
