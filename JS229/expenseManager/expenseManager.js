@@ -3,8 +3,6 @@ const DateFormat = require('./dateFormat');
 
 // Expense Manager Class (Base)
 class ExpenseManager {
-  // How to store expenses?
-  // >> array
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
 
@@ -26,6 +24,7 @@ class ExpenseManager {
       let newExpense = new Expense(id, amount, date, category);
       this.#expenses.push(newExpense);
       console.log(`Successfully added expense!`);
+      return newExpense;
     } catch (error) {
       console.log(`Could not add expense: ${error.message}`);
     }
@@ -38,6 +37,7 @@ class ExpenseManager {
       let indexOfExpense = this.#expenses.indexOf(expense);
       this.#expenses.splice(indexOfExpense, 1);
       console.log(`Expense #${id} successfully removed.`);
+      return expense;
     } else {
       console.log(`That expense (id = ${id}) could not be found.`);
     }
