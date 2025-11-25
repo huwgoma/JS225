@@ -8,7 +8,8 @@ class ExpenseManager {
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
 
-  get expenses() { return this.#expenses.slice() }
+  get expenses()   { return this.#expenses.slice() }
+  get categories() { return this.#categories.slice() }
 
   logSummary() {
     console.log(`Number of Expenses:  ${this.#expenses.length}`);
@@ -53,6 +54,10 @@ class ExpenseManager {
 
   filterByCategory(category) {
     return this.#expenses.filter(expense => expense.category === category);
+  }
+
+  addNewCategory(newCategory) {
+
   }
 
   // Helpers

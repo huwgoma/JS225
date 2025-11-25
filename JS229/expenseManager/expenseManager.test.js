@@ -20,6 +20,7 @@ test('adding expenses fails if category is unknown', () => {
   expect(logSpy).toHaveBeenCalledWith('Invalid expense category.');
 });
 
+
 // Summarizing Expenses
 test('summarize() logs correct outputs', () => {
   let expenseManager = new ExpenseManager();
@@ -34,6 +35,7 @@ test('summarize() logs correct outputs', () => {
   expect(logSpy).toHaveBeenCalledWith('Average Expense:    $19.33');
 
 });
+
 
 // Removing Expenses
 test('removing a nonexistent expense', () => {
@@ -60,6 +62,7 @@ test('removing an existing expense', () => {
   expect(expenseManager.expenses.length).toBe(2);
   expect(expenseManager.expenses[0].amount).toBe(30);
 });
+
 
 // Filtering Expenses
 // > By Date
@@ -132,4 +135,26 @@ test('filtering for an unregistered category returns empty array', () => {
 
   let expenses = expenseManager.filterByCategory('???');
   expect(expenses.length).toBe(0);
-})
+});
+
+
+// Retrieving list of categories
+test('correctly returns (a copy of) the categories array', () => {
+  let expenseManager = new ExpenseManager();
+
+  let categories = expenseManager.categories;
+
+  expect(categories.length).toBe(5); // Default 5
+});
+
+test('cannot mutate categories directly via getter', () => {
+  let expenseManager = new ExpenseManager();
+
+  let categories = expenseManager.categories;
+  categories.push('New Category!');
+  categories = expenseManager.categories;
+  expect(categories.length).toBe(5); // Still only the default 5
+});
+
+
+// Adding categories
