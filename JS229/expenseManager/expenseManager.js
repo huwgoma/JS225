@@ -7,6 +7,8 @@ class ExpenseManager {
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
 
+  get expenses() { return this.#expenses.slice() }
+
   logSummary() {
     console.log(`Number of Expenses:  ${this.#expenses.length}`);
     console.log(`Total Spent:        $${this.#sumOfExpenses().toFixed(2)}`);
@@ -14,13 +16,12 @@ class ExpenseManager {
   }
 
   addExpense(amount, date, category) {
-    if (!(this.#categories.includes(category))) { 
-      console.log('Invalid expense category.');
-      return;
-    }
+    let id = this.#generateID();
+
+    if (!(this.#categories.includes(category))) return console.log('Invalid expense category.');
 
     try {
-      let newExpense = new Expense(this.#generateID(), amount, date, category);
+      let newExpense = new Expense(id, amount, date, category);
       this.#expenses.push(newExpense);
       console.log(`Successfully added expense!`);
     } catch (error) {
@@ -28,23 +29,23 @@ class ExpenseManager {
     }
   }
 
-  // removeExpense(id) {
-  //   let expense = this.#findExpense(id);
+  removeExpense(id) {
+    let expense = this.#findExpense(id);
 
-  //   if (expense) {
-  //     let indexOfExpense = this.#expenses.indexOf(expense);
-  //     this.#expenses.splice(indexOfExpense, 1);
-  //     console.log(`Expense #${id} successfully deleted.`);
-  //   } else {
-  //     console.log(`That expense (id = ${id}) could not be found.`);
-  //   }
-  // }
+    if (expense) {
+      let indexOfExpense = this.#expenses.indexOf(expense);
+      this.#expenses.splice(indexOfExpense, 1);
+      console.log(`Expense #${id} successfully removed.`);
+    } else {
+      console.log(`That expense (id = ${id}) could not be found.`);
+    }
+  }
 
   // Helpers
   #generateID = (function() {
     let nextID = 0;
 
-    return function() { return nextID++ }
+    return function() { return ++nextID }
   })();
 
   #findExpense(id) {
