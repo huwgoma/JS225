@@ -11,11 +11,8 @@ class Expense {
       this.#date     = this.#dateOnly(date);
       this.#category = category;
     } else {
-      return { invalid: true }
+      return { invalid: true };
     }
-    // Validate
-    // - if invalid, return an error object
-    
   }
 
   // Getters
@@ -36,15 +33,9 @@ class Expense {
     return (
       this.#allFieldsGiven(id, amount, date, category) &&
       this.#dateIsValid(date) &&
-      this.#amountIsValid(amount)
-    // &&
-    //   this.#amountIsValid(amount) &&
-    //   this.#categoryIsValid(category)
+      this.#amountIsValid(amount) &&
+      this.#categoryIsValid(category)
     );
-    // 1) all arguments must be present
-    // 2) Date is less than today 
-    // 3) amount is greater than 0
-    // 4) category is not empty
   }
 
   #allFieldsGiven(...args) {
@@ -65,6 +56,13 @@ class Expense {
     if (typeof amount !== 'number') return false;
 
     return amount > 0;
+  }
+
+  // Category needs additional inclusion validation at the Expense Manager level 
+  #categoryIsValid(category) {
+    if (typeof category !== 'string') return false;
+
+    return category.length > 0;
   }
 }
 

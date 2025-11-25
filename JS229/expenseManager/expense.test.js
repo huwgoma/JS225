@@ -64,6 +64,7 @@ test('expense date cannot be in the future', () => {
   expect(chipotleFromTheFuture.invalid).toBe(true);
 });
 
+// > Invalid Amounts
 test('expense amount must be a number', () => {
   let badPriceChipotle = new Expense(1, 'not a number', today, 'Food');
 
@@ -76,4 +77,17 @@ test('expense amount must be positive', () => {
 
   expect(negativePriceChipotle.invalid).toBe(true);
   expect(freeChipotle.invalid).toBe(true);
+});
+
+// > Invalid Categories
+test('expense category must be a string', () => {
+  let badCategoryChipotle = new Expense(1, 13, today, false);
+
+  expect(badCategoryChipotle.invalid).toBe(true);
+});
+
+test('expense category cannot be empty', () => {
+  let emptyCategoryChipotle = new Expense(1, 13, today, '');
+
+  expect(emptyCategoryChipotle.invalid).toBe(true);
 });
