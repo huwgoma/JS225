@@ -31,3 +31,16 @@ test('expenses cannot be altered', () => {
   expect(chipotle.date).toBe(today);
   expect(chipotle.category).toBe('Food');
 });
+
+// Invalid => Error Object 
+test('expenses must have all fields', () => {
+  let chipotleMissingCategory1 = new Expense(13, today, 'Food');
+  let chipotleMissingCategory2 = new Expense(1, today, 'Food');
+  let chipotleMissingCategory3 = new Expense(1, 13, 'Food');
+  let chipotleMissingCategory4 = new Expense(1, 13, today);
+  
+  expect(chipotleMissingCategory1.invalid).toBe(true);
+  expect(chipotleMissingCategory2.invalid).toBe(true);
+  expect(chipotleMissingCategory3.invalid).toBe(true);
+  expect(chipotleMissingCategory4.invalid).toBe(true);
+});
