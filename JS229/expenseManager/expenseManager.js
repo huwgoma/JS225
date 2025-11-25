@@ -51,6 +51,10 @@ class ExpenseManager {
     });
   }
 
+  filterByCategory(category) {
+    return this.#expenses.filter(expense => expense.category === category);
+  }
+
   // Helpers
   #generateID = (function() {
     let nextID = 0;

@@ -45,3 +45,7 @@ let last6DayExpenses = manager.filterByDateRange(sixDaysAgo, today);
 console.log(last6DayExpenses.length); // 2
 
 // > By Category
+let healthExpenses = manager.filterByCategory('Health');
+console.log(healthExpenses.length);   // 2
+let noExpenses = manager.filterByCategory('??');
+console.log(noExpenses.length);       // 0

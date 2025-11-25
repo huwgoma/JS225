@@ -110,4 +110,26 @@ test('filtering with identical arguments returns expenses from that day', () => 
   let expenses = expenseManager.filterByDateRange(lastWeek, lastWeek); 
   expect(expenses.length).toBe(2);
   expect(expenses.filter(e => e.category === 'Entertainment').length).toBe(0);
+});
+
+// > By Category
+test('filtering by category correctly excludes unrelated expenses', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, lastWeek, 'Food');
+  expenseManager.addExpense(30, yesterday, 'Food');
+  expenseManager.addExpense(15, today, 'Entertainment');
+
+  let expenses = expenseManager.filterByCategory('Food');
+  expect(expenses.length).toBe(2);
+  expect(expenses.every(e => e.category === 'Food')).toBe(true);
+});
+
+test('filtering for an unregistered category returns empty array', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, lastWeek, 'Food');
+  expenseManager.addExpense(30, yesterday, 'Food');
+  expenseManager.addExpense(15, today, 'Entertainment');
+
+  let expenses = expenseManager.filterByCategory('???');
+  expect(expenses.length).toBe(0);
 })
