@@ -28,7 +28,11 @@ class BudgetExpenseManager extends ExpenseManager {
       super.addExpense(amount, date, category);
       this.#remainingBudget -= amount;
     }
-  } 
+  }
+  
+  removeExpense(id) {
+    // ...
+  }
 }
 
 module.exports = BudgetExpenseManager;

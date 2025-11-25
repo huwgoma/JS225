@@ -1,4 +1,5 @@
 const ExpenseManager = require('./expenseManager');
+const BudgetExpenseManager = require('./budgetExpenseManager');
 
 const today = new Date();
 const tomorrow = new Date(today);
@@ -73,3 +74,25 @@ manager.addExpense(10, today, 'Bills'); // #10 (Successfully added expense!)
 
 
 // Budget Expense Manager
+console.log('\nBudgeting =======================================================\n');
+let budgetManager = new BudgetExpenseManager(500);
+
+console.log(budgetManager.remainingBudget); // 500
+budgetManager.addExpense(250, today, 'Entertainment');
+budgetManager.addExpense(200, sixDaysAgo, 'Food');
+budgetManager.addExpense(45, lastWeek, 'Health');
+
+budgetManager.logSummary(); // logs Count = 3, Total = 495, Avg = 165, Budget = 5/500
+
+// - Same filtering capabilities
+console.log(budgetManager.filterByDateRange(sixDaysAgo, today).map(e => e.category)); // [Entertainment, Food] 
+console.log(budgetManager.filterByCategory('Food').map(e => e.category)); // [ Food ]
+
+// Can't go over budget
+budgetManager.addExpense(10, today, 'Health'); // Logs budget exceeded!
+console.log(budgetManager.remainingBudget);    // 5
+// Zeroing out
+budgetManager.addExpense(5, today, 'Health'); // Logs budget exceeded!
+console.log(budgetManager.remainingBudget);   // 0
+
+// Removing expenses restores budget
