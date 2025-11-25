@@ -61,3 +61,53 @@ test('removing an existing expense', () => {
   expect(expenseManager.expenses[0].amount).toBe(30);
 });
 
+// Filtering Expenses
+// > By Date
+const yesterday = new Date(today);
+yesterday.setDate(yesterday.getDate() - 1);
+
+const lastWeek = new Date(today);
+lastWeek.setDate(lastWeek.getDate() - 7);
+
+test('filtering returns the expenses within the given dates', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, today, 'Food');
+  expenseManager.addExpense(30, lastWeek, 'Health');
+  expenseManager.addExpense(15, lastWeek, 'Entertainment');
+
+  let expenses = expenseManager.filterByDateRange(yesterday, today); // [Expense(1, 13, today, 'Food')]
+  expect(expenses.length).toBe(1);
+  expect(expenses[0].category).toBe('Food');
+});
+
+test('filtering correctly returns expenses at date range boundaries', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, today, 'Food');
+  expenseManager.addExpense(30, lastWeek, 'Health');
+  expenseManager.addExpense(15, lastWeek, 'Entertainment');
+
+  let expenses = expenseManager.filterByDateRange(lastWeek, today);
+  expect(expenses.length).toBe(3);
+});
+
+test('filtering with irrelevant dates returns empty array', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, lastWeek, 'Food');
+  expenseManager.addExpense(30, lastWeek, 'Health');
+  expenseManager.addExpense(15, lastWeek, 'Entertainment');
+
+  let expenses = expenseManager.filterByDateRange(yesterday, today);
+  expect(expenses.length).toBe(0);
+});
+
+test('filtering with identical arguments returns expenses from that day', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, lastWeek, 'Food');
+  expenseManager.addExpense(30, lastWeek, 'Health');
+  expenseManager.addExpense(15, today, 'Entertainment');
+
+  // Filters out Entertainment expense from today
+  let expenses = expenseManager.filterByDateRange(lastWeek, lastWeek); 
+  expect(expenses.length).toBe(2);
+  expect(expenses.filter(e => e.category === 'Entertainment').length).toBe(0);
+})

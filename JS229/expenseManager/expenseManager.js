@@ -43,7 +43,12 @@ class ExpenseManager {
   }
 
   filterByDateRange(startDate, endDate) {
-    
+    let workingStartDate = DateFormat.dateOnly(startDate);
+    let workingEndDate   = DateFormat.dateOnly(endDate);
+
+    return this.#expenses.filter(expense => {
+      return expense.date <= workingEndDate && expense.date >= workingStartDate;
+    });
   }
 
   // Helpers
