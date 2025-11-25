@@ -20,8 +20,19 @@ test('adding expenses fails if category is unknown', () => {
   expect(logSpy).toHaveBeenCalledWith('Invalid expense category.');
 });
 
-
-
 // Summarizing Expenses
+test('summarize() logs correct outputs', () => {
+  let expenseManager = new ExpenseManager();
+  expenseManager.addExpense(13, today, 'Food');
+  expenseManager.addExpense(30, today, 'Health');
+  expenseManager.addExpense(15, today, 'Entertainment');
+
+  expenseManager.logSummary();
+
+  expect(logSpy).toHaveBeenCalledWith('Number of Expenses:  3');
+  expect(logSpy).toHaveBeenCalledWith('Total Spent:        $58.00');
+  expect(logSpy).toHaveBeenCalledWith('Average Expense:    $19.33');
+
+});
 
 // Removing Expenses

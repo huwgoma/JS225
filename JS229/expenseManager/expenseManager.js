@@ -7,9 +7,10 @@ class ExpenseManager {
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
 
-  summarize() {
-    console.log()
-    // total spent, average amount, count (# of expenses)
+  logSummary() {
+    console.log(`Number of Expenses:  ${this.#expenses.length}`);
+    console.log(`Total Spent:        $${this.#sumOfExpenses().toFixed(2)}`);
+    console.log(`Average Expense:    $${this.#averageExpense().toFixed(2)}`);
   }
 
   addExpense(amount, date, category) {
@@ -50,6 +51,16 @@ class ExpenseManager {
     return this.#expenses.find(expense => expense.id === id);
   }
 
+  #sumOfExpenses() {
+    return this.#expenses.reduce((sum, expense) => {
+      sum += expense.amount;
+      return sum;
+    }, 0);
+  }
+
+  #averageExpense() {
+    return this.#sumOfExpenses() / this.#expenses.length;
+  }
   
   // Remove an expense by id.
   // Summarize expenses (total spent, average amount, and count).
