@@ -35,7 +35,8 @@ class Expense {
   #isValid(id, amount, date, category) {
     return (
       this.#allFieldsGiven(id, amount, date, category) &&
-      this.#dateIsValid(date) 
+      this.#dateIsValid(date) &&
+      this.#amountIsValid(amount)
     // &&
     //   this.#amountIsValid(amount) &&
     //   this.#categoryIsValid(category)
@@ -53,11 +54,17 @@ class Expense {
 
   #dateIsValid(date) {
     if (!(date instanceof Date)) return false;
-    
+
     let today = this.#dateOnly(new Date());
     let dateCopy = this.#dateOnly(date);
 
     return dateCopy <= today;
+  }
+
+  #amountIsValid(amount) {
+    if (typeof amount !== 'number') return false;
+
+    return amount > 0;
   }
 }
 
