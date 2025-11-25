@@ -139,12 +139,14 @@ test('filtering for an unregistered category returns empty array', () => {
 
 
 // Retrieving list of categories
+let defaultCategories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
+
 test('correctly returns (a copy of) the categories array', () => {
   let expenseManager = new ExpenseManager();
-
+  
   let categories = expenseManager.categories;
 
-  expect(categories.length).toBe(5); // Default 5
+  expect(categories).toEqual(defaultCategories);
 });
 
 test('cannot mutate categories directly via getter', () => {
@@ -152,9 +154,46 @@ test('cannot mutate categories directly via getter', () => {
 
   let categories = expenseManager.categories;
   categories.push('New Category!');
-  categories = expenseManager.categories;
-  expect(categories.length).toBe(5); // Still only the default 5
+  
+  // Expense Manager's categories is unmodified
+  expect(expenseManager.categories).toEqual(defaultCategories);
 });
 
 
-// Adding categories
+// Adding new categories
+test('correctly adds a new category to categories', () => {
+  let expenseManager = new ExpenseManager();
+  
+  let newCategory = 'Example';
+  let expectedCategories = defaultCategories.slice().concat(newCategory);
+
+  expenseManager.addCategory(newCategory);
+  expect(expenseManager.categories).toEqual(expectedCategories);
+});
+
+test('expenses can be created in the new category', () => {
+  let expenseManager = new ExpenseManager();
+
+  expenseManager.addCategory('Example');
+  let exampleExpense = expenseManager.addExpense(10, today, 'Example');
+
+  expect(expenseManager.expenses).toEqual([exampleExpense]);
+});
+
+test('prevents duplicate categories from being added', () => {
+  let expenseManager = new ExpenseManager();
+
+  expenseManager.addCategory('Food');
+
+  expect(logSpy).toHaveBeenCalledWith("Category 'Food' already exists.");
+  expect(expenseManager.categories).toEqual(defaultCategories);
+});
+
+test('prevents empty/blank categories from being added', () => {
+  let expenseManager = new ExpenseManager();
+
+  expenseManager.addCategory(' ');
+
+  expect(logSpy).toHaveBeenCalledWith('Category name cannot be empty.');
+  expect(expenseManager.categories).toEqual(defaultCategories);
+});

@@ -56,8 +56,11 @@ class ExpenseManager {
     return this.#expenses.filter(expense => expense.category === category);
   }
 
-  addNewCategory(newCategory) {
+  addCategory(newCategory) {
+    if (this.#categories.includes(newCategory)) return console.log(`Category '${newCategory}' already exists.`);
+    if (newCategory.trim().length === 0) return console.log('Category name cannot be empty.');
 
+    this.#categories.push(newCategory);
   }
 
   // Helpers
