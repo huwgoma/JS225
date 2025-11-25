@@ -83,6 +83,8 @@ class ExpenseManager {
   }
 
   #averageExpense() {
+    if (this.#expenses.length === 0) return 0;
+    
     return this.#sumOfExpenses() / this.#expenses.length;
   }
 }
