@@ -61,6 +61,7 @@ class ExpenseManager {
     if (newCategory.trim().length === 0) return console.log('Category name cannot be empty.');
 
     this.#categories.push(newCategory);
+    console.log(`Successfully added ${newCategory} as a new category.`);
   }
 
   // Helpers
@@ -84,13 +85,6 @@ class ExpenseManager {
   #averageExpense() {
     return this.#sumOfExpenses() / this.#expenses.length;
   }
-  
-  // Remove an expense by id.
-  // Summarize expenses (total spent, average amount, and count).
-  // Filter expenses by a date range.
-  // Filter expenses by category.
-  // Add a new allowed category.
-  // Retrieve the current list of allowed categories.
 }
 
 module.exports = ExpenseManager;

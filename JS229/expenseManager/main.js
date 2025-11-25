@@ -19,9 +19,11 @@ manager.addExpense(13, today, 'Food');          // #5 -- Deleted --
 manager.addExpense(30, today, 'Health');        // #6
 manager.addExpense(15, today, 'Entertainment'); // #7
 
+
 // Summarizing Expenses
 console.log('Summarizing Expenses ======================================================');
 manager.logSummary(); // Logs Count = 3, Total = 58.00, Average = 19.33
+
 
 // Removing Expenses
 console.log('Removing Expenses ======================================================');
@@ -29,6 +31,7 @@ manager.removeExpense(67); // Logs 'That expense (id = 67) could not be found.'
 manager.removeExpense(5); // Logs 'Expense #5 successfully removed.'
 
 manager.logSummary(); // Logs Count = 2, Total = 45.00, Average: 22.50
+
 
 // Filtering Expenses
 console.log('Filtering Expenses ======================================================');
@@ -49,3 +52,21 @@ let healthExpenses = manager.filterByCategory('Health');
 console.log(healthExpenses.length);   // 2
 let noExpenses = manager.filterByCategory('??');
 console.log(noExpenses.length);       // 0
+
+
+// Categories
+console.log('Categories ======================================================');
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+
+// - Cannot add an empty category
+manager.addCategory('  '); //=> Logs 'Category name cannot be empty.'
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+// - Cannot add a duplicate category
+manager.addCategory('Food'); //=> Logs "Category 'Food' already exists."
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+
+// - Successfully adding a new category
+manager.addCategory('Bills');    //=> Logs 'Successfully added Bills as a new category.'
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health', 'Bills']
+// - Can then add Bill expenses
+manager.addExpense(10, today, 'Bills'); // #10 (Successfully added expense!)
