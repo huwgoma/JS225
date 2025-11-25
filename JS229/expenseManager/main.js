@@ -78,9 +78,9 @@ console.log('\nBudgeting =======================================================
 let budgetManager = new BudgetExpenseManager(500);
 
 console.log(budgetManager.remainingBudget); // 500
-budgetManager.addExpense(250, today, 'Entertainment');
-budgetManager.addExpense(200, sixDaysAgo, 'Food');
-budgetManager.addExpense(45, lastWeek, 'Health');
+budgetManager.addExpense(250, today, 'Entertainment');  // #1
+budgetManager.addExpense(200, sixDaysAgo, 'Food');      // #2
+budgetManager.addExpense(45, lastWeek, 'Health');       // #3
 
 budgetManager.logSummary(); // logs Count = 3, Total = 495, Avg = 165, Budget = 5/500
 
@@ -92,7 +92,9 @@ console.log(budgetManager.filterByCategory('Food').map(e => e.category)); // [ F
 budgetManager.addExpense(10, today, 'Health'); // Logs budget exceeded!
 console.log(budgetManager.remainingBudget);    // 5
 // Zeroing out
-budgetManager.addExpense(5, today, 'Health'); // Logs budget exceeded!
+budgetManager.addExpense(5, today, 'Health'); // #4
 console.log(budgetManager.remainingBudget);   // 0
 
 // Removing expenses restores budget
+budgetManager.removeExpense(4);
+console.log(budgetManager.remainingBudget);   // 5

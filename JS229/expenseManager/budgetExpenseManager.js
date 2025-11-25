@@ -31,7 +31,9 @@ class BudgetExpenseManager extends ExpenseManager {
   }
   
   removeExpense(id) {
-    // ...
+    let removedExpense = super.removeExpense(id);
+
+    if (removedExpense) this.#remainingBudget += removedExpense.amount;
   }
 }
 

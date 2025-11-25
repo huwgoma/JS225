@@ -56,3 +56,14 @@ test('zeroing out is okay', () => {
 
   expect(budgetManager.remainingBudget).toBe(0);
 });
+
+// Removing expenses
+test('it restores the correct amount to remaining budget', () => {
+  let budgetManager = new BudgetExpenseManager(500);
+
+  budgetManager.addExpense(500, today, 'Entertainment');
+  expect(budgetManager.remainingBudget).toBe(0);
+
+  budgetManager.removeExpense(1);
+  expect(budgetManager.remainingBudget).toBe(500);
+});
