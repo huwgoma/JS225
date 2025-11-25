@@ -1,4 +1,5 @@
 const Expense = require('./expense');
+const DateFormat = require('./dateFormat');
 
 // Expense Manager Class (Base)
 class ExpenseManager {
@@ -39,6 +40,10 @@ class ExpenseManager {
     } else {
       console.log(`That expense (id = ${id}) could not be found.`);
     }
+  }
+
+  filterByDateRange(startDate, endDate) {
+    
   }
 
   // Helpers
