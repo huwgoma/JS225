@@ -44,9 +44,7 @@ test('it subtracts the correct amount from remaining budget', () => {
 test('it prevents adding an expense if too expensive', () => {
   let budgetManager = new BudgetExpenseManager(500);
 
-  budgetManager.addExpense(501, today, 'Entertainment');
-
-  expect(logSpy).toHaveBeenCalledWith('Budget exceeded! Cannot add expense.');
+  expect(() => budgetManager.addExpense(501, today, 'Entertainment')).toThrow(Error);
   expect(budgetManager.remainingBudget).toBe(500);
 });
 

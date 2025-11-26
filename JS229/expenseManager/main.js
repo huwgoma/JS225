@@ -1,9 +1,8 @@
 const ExpenseManager = require('./expenseManager');
 const BudgetExpenseManager = require('./budgetExpenseManager');
 
-const today = new Date();
-const tomorrow = new Date(today);
-tomorrow.setDate(tomorrow.getDate() + 1);
+
+
 
 // Wrapper Methods
 function addExpense(manager, amount, date, category) {
@@ -16,7 +15,21 @@ function addExpense(manager, amount, date, category) {
 }
 
 // Usage:
+// > Test Dates
+const today = new Date();
+
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const lastWeek = new Date(today);
+lastWeek.setDate(lastWeek.getDate() - 7);
+
+const sixDaysAgo = new Date(today);
+sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
+
+// > Dummy Managers
 let manager = new ExpenseManager();
+let budgetManager = new BudgetExpenseManager(500);
 
 // Adding Expenses:
 console.log('Adding Expenses ======================================================\n');
@@ -31,8 +44,8 @@ addExpense(manager, 15, today, 'Entertainment'); // Expense successfully added. 
 
 
 // // Summarizing Expenses
-// console.log('Summarizing Expenses ======================================================');
-// manager.logSummary(); // Logs Count = 3, Total = 58.00, Average = 19.33
+console.log('Summarizing Expenses ======================================================\n');
+manager.logSummary(); // Logs Count = 3, Total = 58.00, Average = 19.33
 
 
 // // Removing Expenses
@@ -46,10 +59,6 @@ addExpense(manager, 15, today, 'Entertainment'); // Expense successfully added. 
 // // Filtering Expenses
 // console.log('Filtering Expenses ======================================================');
 // // > By Date
-// const lastWeek = new Date(today);
-// lastWeek.setDate(lastWeek.getDate() - 7);
-// const sixDaysAgo = new Date(today);
-// sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
 
 // manager.addExpense(120, lastWeek, 'Health');        // #8
 // manager.addExpense(25,  lastWeek, 'Entertainment'); // #9
@@ -82,27 +91,26 @@ addExpense(manager, 15, today, 'Entertainment'); // Expense successfully added. 
 // manager.addExpense(10, today, 'Bills'); // #10 (Successfully added expense!)
 
 
-// // Budget Expense Manager
-// console.log('\nBudgeting =======================================================\n');
-// let budgetManager = new BudgetExpenseManager(500);
+// Budget Expense Manager
+console.log('\nBudgeting =======================================================\n');
 
-// console.log(budgetManager.remainingBudget); // 500
-// budgetManager.addExpense(250, today, 'Entertainment');  // #1
-// budgetManager.addExpense(200, sixDaysAgo, 'Food');      // #2
-// budgetManager.addExpense(45, lastWeek, 'Health');       // #3
+console.log(budgetManager.remainingBudget); // 500
+addExpense(budgetManager, 250, today, 'Entertainment');  // Expense successfully added. #1
+addExpense(budgetManager, 200, sixDaysAgo, 'Food');      // Expense successfully added. #2
+addExpense(budgetManager, 45, lastWeek, 'Health');       // Expense successfully added. #3
 
-// budgetManager.logSummary(); // logs Count = 3, Total = 495, Avg = 165, Budget = 5/500
+budgetManager.logSummary(); // logs Count = 3, Total = 495, Avg = 165, Budget = 5/500
 
 // // - Same filtering capabilities
 // console.log(budgetManager.filterByDateRange(sixDaysAgo, today).map(e => e.category)); // [Entertainment, Food] 
 // console.log(budgetManager.filterByCategory('Food').map(e => e.category)); // [ Food ]
 
-// // Can't go over budget
-// budgetManager.addExpense(10, today, 'Health'); // Logs budget exceeded!
-// console.log(budgetManager.remainingBudget);    // 5
-// // Zeroing out
-// budgetManager.addExpense(5, today, 'Health'); // #4
-// console.log(budgetManager.remainingBudget);   // 0
+// Can't go over budget
+addExpense(budgetManager, 10, today, 'Health'); // Expense was not added: Budget exceeded!
+console.log(budgetManager.remainingBudget);    // 5
+// Zeroing out
+addExpense(budgetManager, 5, today, 'Health'); // Expense successfully added. #4
+console.log(budgetManager.remainingBudget);   // 0
 
 // // Removing expenses restores budget
 // budgetManager.removeExpense(4);
