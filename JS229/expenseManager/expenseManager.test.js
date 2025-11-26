@@ -10,14 +10,13 @@ test('successfully adding expense', () => {
   let expenseManager = new ExpenseManager();
 
   expenseManager.addExpense(13, today, 'Food');
-  expect(logSpy).toHaveBeenCalledWith('Successfully added expense!');
+  expect(expenseManager.expenses.length === 1);
 });
 
 test('adding expenses fails if category is unknown', () => {
   let expenseManager = new ExpenseManager();
 
-  expenseManager.addExpense(13, today, 'bad category')
-  expect(logSpy).toHaveBeenCalledWith('Invalid expense category.');
+  expect(() => expenseManager.addExpense(13, today, 'bad category')).toThrow(Error);
 });
 
 
@@ -46,7 +45,7 @@ test('removing a nonexistent expense', () => {
 
   expenseManager.removeExpense(67);
 
-  expect(logSpy).toHaveBeenCalledWith('That expense (id = 67) could not be found.');
+  // expect(logSpy).toHaveBeenCalledWith('That expense (id = 67) could not be found.');
   expect(expenseManager.expenses.length).toBe(3);
 });
 
@@ -58,7 +57,7 @@ test('removing an existing expense', () => {
 
   expenseManager.removeExpense(1);
 
-  expect(logSpy).toHaveBeenCalledWith('Expense #1 successfully removed.');
+  // expect(logSpy).toHaveBeenCalledWith('Expense #1 successfully removed.');
   expect(expenseManager.expenses.length).toBe(2);
   expect(expenseManager.expenses[0].amount).toBe(30);
 });

@@ -19,16 +19,11 @@ class ExpenseManager {
   addExpense(amount, date, category) {
     let id = this.#generateID();
 
-    if (!(this.#categories.includes(category))) return console.log('Invalid expense category.');
+    if (!(this.#categories.includes(category))) throw new Error('Invalid expense category.');
 
-    try {
-      let newExpense = new Expense(id, amount, date, category);
-      this.#expenses.push(newExpense);
-      console.log(`Successfully added expense!`);
-      return newExpense;
-    } catch (error) {
-      console.log(`Could not add expense: ${error.message}`);
-    }
+    let newExpense = new Expense(id, amount, date, category);
+    this.#expenses.push(newExpense);
+    return newExpense;
   }
 
   removeExpense(id) {
