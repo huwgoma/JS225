@@ -11,7 +11,7 @@ class ExpenseManager {
 
   logSummary() {
     console.log(`Number of Expenses:  ${this.#expenses.length}`);
-    console.log(`Total Spent:        $${this.#sumOfExpenses().toFixed(2)}`);
+    console.log(`Total Spent:        $${this.sumOfExpenses().toFixed(2)}`);
     console.log(`Average Expense:    $${this.#averageExpense().toFixed(2)}`);
   }
 
@@ -75,7 +75,8 @@ class ExpenseManager {
     return this.#expenses.find(expense => expense.id === id);
   }
 
-  #sumOfExpenses() {
+  // Public so it can be inherited by subclass (budget expense manager)
+  sumOfExpenses() {
     return this.#expenses.reduce((sum, expense) => {
       sum += expense.amount;
       return sum;
@@ -84,8 +85,8 @@ class ExpenseManager {
 
   #averageExpense() {
     if (this.#expenses.length === 0) return 0;
-    
-    return this.#sumOfExpenses() / this.#expenses.length;
+
+    return this.sumOfExpenses() / this.#expenses.length;
   }
 }
 
