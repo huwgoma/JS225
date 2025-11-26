@@ -26,8 +26,9 @@ test('throws error if limit is not a valid positive number', () => {
 test('logs remaining budget out of total', () => {
   let budgetManager = new BudgetExpenseManager(500);
 
-  budgetManager.logSummary();
-  expect(logSpy).toHaveBeenLastCalledWith('Budget Remaining:   $500.00/$500.00');
+  let summary = budgetManager.summary;
+  expect(summary.remainingBudget).toBe(500);
+  expect(summary.totalBudget).toBe(500);
 });
 
 

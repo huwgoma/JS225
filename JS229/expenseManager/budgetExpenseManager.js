@@ -3,7 +3,14 @@ const ExpenseManager = require('./expenseManager');
 class BudgetExpenseManager extends ExpenseManager {
   #totalBudget;
 
-  get remainingBudget() { return this.#totalBudget - this.sumOfExpenses() }  
+  get remainingBudget() { return this.#totalBudget - this.sumOfExpenses() }
+  get summary() { 
+    let expenseSummary = super.summary;
+    console.log(expenseSummary)
+    expenseSummary.remainingBudget = Number(this.remainingBudget.toFixed(2));
+    expenseSummary.totalBudget = Number(this.#totalBudget.toFixed(2));
+    return expenseSummary;
+  }
 
   constructor(limit) {
     if (typeof limit !== 'number' || Number.isNaN(limit) || limit <= 0) {
@@ -16,7 +23,7 @@ class BudgetExpenseManager extends ExpenseManager {
 
   logSummary() {
     super.logSummary();
-    console.log(`Budget Remaining:   $${this.remainingBudget.toFixed(2)}/$${this.#totalBudget.toFixed(2)}`);
+    console.log(`Budget Remaining:   $${this.summary.remainingBudget}/$${this.summary.totalBudget}`);
   }
   
   addExpense(amount, date, category) {

@@ -20,7 +20,7 @@ class ExpenseManager {
   logSummary() {
     console.log(`Number of Expenses:  ${this.summary.count}`);
     console.log(`Total Spent:        $${this.summary.total.toFixed(2)}`);
-    console.log(`Average Expense:    $${this.average.toFixed(2)}`);
+    console.log(`Average Expense:    $${this.summary.average.toFixed(2)}`);
   }
 
   addExpense(amount, date, category) {
