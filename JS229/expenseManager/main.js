@@ -22,18 +22,12 @@ let manager = new ExpenseManager();
 console.log('Adding Expenses ======================================================\n');
 addExpense(manager, -1, today, 'Food');    // Expense was not added: Invalid expense data.
 addExpense(manager, 13, tomorrow, 'Food'); // Expense was not added: Invalid expense data.
-// Usage:
-// // Adding Expenses
+addExpense(manager, 13, today);            // Expense was not added: Invalid expense category.
+addExpense(manager, 13, today, 'Bad Category');  // Expense was not addded: Invalid expense category.
 
-// manager.addExpense(-1, today, 'Food');    // Invalid Price -> "Could not add expense: Invalid expense data."
-// manager.addExpense(13, tomorrow, 'Food'); // Invalid Date  -> "Could not add expense: Invalid expense data."
-
-// manager.addExpense(13, today);                  // Invalid Category -> "Invalid expense category."
-// manager.addExpense(13, today, 'Bad Category');  // Invalid Category -> "Invalid expense category."
-
-// manager.addExpense(13, today, 'Food');          // #5 -- Deleted --
-// manager.addExpense(30, today, 'Health');        // #6
-// manager.addExpense(15, today, 'Entertainment'); // #7
+addExpense(manager, 13, today, 'Food');          // Expense successfully added. #5
+addExpense(manager, 30, today, 'Health');        // Expense successfully added. #6
+addExpense(manager, 15, today, 'Entertainment'); // Expense successfully added. #7
 
 
 // // Summarizing Expenses

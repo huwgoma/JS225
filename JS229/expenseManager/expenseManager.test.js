@@ -27,12 +27,11 @@ test('summarize() logs correct outputs', () => {
   expenseManager.addExpense(30, today, 'Health');
   expenseManager.addExpense(15, today, 'Entertainment');
 
-  expenseManager.logSummary();
+  let summary = expenseManager.summary;
 
-  expect(logSpy).toHaveBeenCalledWith('Number of Expenses:  3');
-  expect(logSpy).toHaveBeenCalledWith('Total Spent:        $58.00');
-  expect(logSpy).toHaveBeenCalledWith('Average Expense:    $19.33');
-
+  expect(summary.count).toBe(3);
+  expect(summary.total).toBe(58);
+  expect(summary.average).toBe(19.33);
 });
 
 

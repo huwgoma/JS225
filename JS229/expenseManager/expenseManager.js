@@ -9,11 +9,18 @@ class ExpenseManager {
 
   get expenses()   { return this.#expenses.slice() }
   get categories() { return this.#categories.slice() }
+  get summary() { 
+    return {
+      count:   this.#expenses.length,
+      total:   Number(this.sumOfExpenses().toFixed(2)),
+      average: Number(this.#averageExpense().toFixed(2)),
+    }
+  }
 
   logSummary() {
-    console.log(`Number of Expenses:  ${this.#expenses.length}`);
-    console.log(`Total Spent:        $${this.sumOfExpenses().toFixed(2)}`);
-    console.log(`Average Expense:    $${this.#averageExpense().toFixed(2)}`);
+    console.log(`Number of Expenses:  ${this.summary.count}`);
+    console.log(`Total Spent:        $${this.summary.total.toFixed(2)}`);
+    console.log(`Average Expense:    $${this.average.toFixed(2)}`);
   }
 
   addExpense(amount, date, category) {
