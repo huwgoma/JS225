@@ -1,4 +1,4 @@
-const BudgetExpenseManager = require('./budgetExpenseManager');
+const BudgetExpenseManager = require('../app/budgetExpenseManager');
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);

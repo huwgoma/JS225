@@ -1,5 +1,5 @@
-const ExpenseManager = require('./expenseManager');
-const BudgetExpenseManager = require('./budgetExpenseManager');
+const ExpenseManager = require('./app/expenseManager');
+const BudgetExpenseManager = require('./app/budgetExpenseManager');
 
 
 // Wrapper Methods

@@ -1,4 +1,4 @@
-const Expense = require('./expense');
+const Expense = require('../app/expense');
 
 // Date-Related Helpers
 const today = new Date();
