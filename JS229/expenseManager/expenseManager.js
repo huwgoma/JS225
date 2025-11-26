@@ -5,6 +5,7 @@ const DateFormat = require('./dateFormat');
 class ExpenseManager {
   #expenses = [];
   #categories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health'];
+  #nextID = 1;
 
   get expenses()   { return this.#expenses.slice() }
   get categories() { return this.#categories.slice() }
@@ -65,11 +66,7 @@ class ExpenseManager {
   }
 
   // Helpers
-  #generateID = (function() {
-    let nextID = 0;
-
-    return function() { return ++nextID }
-  })();
+  #generateID() { return this.#nextID++ }
 
   #findExpense(id) {
     return this.#expenses.find(expense => expense.id === id);
