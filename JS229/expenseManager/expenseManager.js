@@ -1,5 +1,5 @@
 const Expense = require('./expense');
-const DateFormat = require('./dateFormat');
+const Utilities = require('./utilities');
 
 // Expense Manager Class (Base)
 class ExpenseManager {
@@ -12,8 +12,8 @@ class ExpenseManager {
   get summary() { 
     return {
       count:   this.#expenses.length,
-      total:   Number(this.sumOfExpenses().toFixed(2)),
-      average: Number(this.#averageExpense().toFixed(2)),
+      total:   Utilities.toFixNum(this.sumOfExpenses(), 2),
+      average: Utilities.toFixNum(this.#averageExpense(), 2),
     }
   }
 
@@ -47,8 +47,8 @@ class ExpenseManager {
   }
 
   filterByDateRange(startDate, endDate) {
-    let workingStartDate = DateFormat.dateOnly(startDate);
-    let workingEndDate   = DateFormat.dateOnly(endDate);
+    let workingStartDate = Utilities.dateOnly(startDate);
+    let workingEndDate   = Utilities.dateOnly(endDate);
 
     return this.#expenses.filter(expense => {
       return expense.date <= workingEndDate && expense.date >= workingStartDate;

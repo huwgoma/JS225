@@ -1,4 +1,5 @@
 const ExpenseManager = require('./expenseManager');
+const Utilities = require('./utilities');
 
 class BudgetExpenseManager extends ExpenseManager {
   #totalBudget;
@@ -7,8 +8,8 @@ class BudgetExpenseManager extends ExpenseManager {
   get summary() { 
     let expenseSummary = super.summary;
     console.log(expenseSummary)
-    expenseSummary.remainingBudget = Number(this.remainingBudget.toFixed(2));
-    expenseSummary.totalBudget = Number(this.#totalBudget.toFixed(2));
+    expenseSummary.remainingBudget = Utilities.toFixNum(this.remainingBudget, 2);
+    expenseSummary.totalBudget = Utilities.toFixNum(this.#totalBudget, 2);
     return expenseSummary;
   }
 

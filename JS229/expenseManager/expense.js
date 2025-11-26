@@ -1,4 +1,4 @@
-const DateFormat = require('./dateFormat');
+const Utilities = require('./utilities');
 
 class Expense {
   #id;
@@ -10,7 +10,7 @@ class Expense {
     if (this.#isValid(id, amount, date, category)) {
       this.#id       = id;
       this.#amount   = amount;
-      this.#date     = DateFormat.dateOnly(date);
+      this.#date     = Utilities.dateOnly(date);
       this.#category = category;
     } else {
       throw new Error('Invalid expense data.');
@@ -41,8 +41,8 @@ class Expense {
   #dateIsValid(date) {
     if (!(date instanceof Date)) return false;
 
-    let today = DateFormat.dateOnly(new Date());
-    let dateCopy = DateFormat.dateOnly(date);
+    let today = Utilities.dateOnly(new Date());
+    let dateCopy = Utilities.dateOnly(date);
 
     return dateCopy <= today;
   }
