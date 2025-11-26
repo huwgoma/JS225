@@ -33,10 +33,6 @@ class BudgetExpenseManager extends ExpenseManager {
       super.addExpense(amount, date, category);
     }
   }
-  
-  removeExpense(id) {
-    let removedExpense = super.removeExpense(id);
-  }
 }
 
 module.exports = BudgetExpenseManager;

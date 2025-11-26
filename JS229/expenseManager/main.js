@@ -14,6 +14,15 @@ function addExpense(manager, amount, date, category) {
   }
 }
 
+function removeExpense(manager, expenseID) {
+  try {
+    manager.removeExpense(expenseID);
+    console.log(`Expense #${expenseID} successfully removed.`);
+  } catch(error) { 
+    console.log(`Expense not removed: ${error.message}`);
+  }
+}
+
 // Usage:
 // > Test Dates
 const today = new Date();
@@ -32,7 +41,7 @@ let manager = new ExpenseManager();
 let budgetManager = new BudgetExpenseManager(500);
 
 // Adding Expenses:
-console.log('Adding Expenses ======================================================\n');
+console.log('\nAdding Expenses ======================================================');
 addExpense(manager, -1, today, 'Food');    // Expense was not added: Invalid expense data.
 addExpense(manager, 13, tomorrow, 'Food'); // Expense was not added: Invalid expense data.
 addExpense(manager, 13, today);            // Expense was not added: Invalid expense category.
@@ -44,16 +53,16 @@ addExpense(manager, 15, today, 'Entertainment'); // Expense successfully added. 
 
 
 // // Summarizing Expenses
-console.log('Summarizing Expenses ======================================================\n');
+console.log('\nSummarizing Expenses ======================================================');
 manager.logSummary(); // Logs Count = 3, Total = 58.00, Average = 19.33
 
 
-// // Removing Expenses
-// console.log('Removing Expenses ======================================================');
-// manager.removeExpense(67); // Logs 'That expense (id = 67) could not be found.'
-// manager.removeExpense(5); // Logs 'Expense #5 successfully removed.'
+// Removing Expenses
+console.log('\nRemoving Expenses ======================================================');
+removeExpense(manager, 67); // Expense not removed: That expense (id = 67) could not be found.
+removeExpense(manager, 5);  // Logs 'Expense #5 successfully removed.'
 
-// manager.logSummary(); // Logs Count = 2, Total = 45.00, Average: 22.50
+manager.logSummary(); // Logs Count = 2, Total = 45.00, Average: 22.50
 
 
 // // Filtering Expenses
@@ -112,6 +121,6 @@ console.log(budgetManager.remainingBudget);    // 5
 addExpense(budgetManager, 5, today, 'Health'); // Expense successfully added. #4
 console.log(budgetManager.remainingBudget);   // 0
 
-// // Removing expenses restores budget
-// budgetManager.removeExpense(4);
-// console.log(budgetManager.remainingBudget);   // 5
+// Removing expenses restores budget
+removeExpense(budgetManager, 4);
+console.log(budgetManager.remainingBudget);   // 5

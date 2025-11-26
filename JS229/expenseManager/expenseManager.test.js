@@ -42,7 +42,7 @@ test('removing a nonexistent expense', () => {
   expenseManager.addExpense(30, today, 'Health');
   expenseManager.addExpense(15, today, 'Entertainment');
 
-  expenseManager.removeExpense(67);
+  expect(() => expenseManager.removeExpense(67)).toThrow(Error);
 
   // expect(logSpy).toHaveBeenCalledWith('That expense (id = 67) could not be found.');
   expect(expenseManager.expenses.length).toBe(3);
@@ -56,7 +56,6 @@ test('removing an existing expense', () => {
 
   expenseManager.removeExpense(1);
 
-  // expect(logSpy).toHaveBeenCalledWith('Expense #1 successfully removed.');
   expect(expenseManager.expenses.length).toBe(2);
   expect(expenseManager.expenses[0].amount).toBe(30);
 });

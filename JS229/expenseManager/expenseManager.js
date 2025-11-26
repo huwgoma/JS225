@@ -39,10 +39,9 @@ class ExpenseManager {
     if (expense) {
       let indexOfExpense = this.#expenses.indexOf(expense);
       this.#expenses.splice(indexOfExpense, 1);
-      console.log(`Expense #${id} successfully removed.`);
       return expense;
     } else {
-      console.log(`That expense (id = ${id}) could not be found.`);
+      throw new Error(`That expense (id = ${id}) could not be found.`);
     }
   }
 
