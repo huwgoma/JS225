@@ -180,17 +180,13 @@ test('expenses can be created in the new category', () => {
 test('prevents duplicate categories from being added', () => {
   let expenseManager = new ExpenseManager();
 
-  expenseManager.addCategory('Food');
-
-  expect(logSpy).toHaveBeenCalledWith("Category 'Food' already exists.");
+  expect(() => expenseManager.addCategory('Food')).toThrow('already exists.');
   expect(expenseManager.categories).toEqual(defaultCategories);
 });
 
 test('prevents empty/blank categories from being added', () => {
   let expenseManager = new ExpenseManager();
 
-  expenseManager.addCategory(' ');
-
-  expect(logSpy).toHaveBeenCalledWith('Category name cannot be empty.');
+  expect(() => expenseManager.addCategory(' ')).toThrow('cannot be empty.');
   expect(expenseManager.categories).toEqual(defaultCategories);
 });

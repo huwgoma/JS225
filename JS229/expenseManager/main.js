@@ -23,6 +23,15 @@ function removeExpense(manager, expenseID) {
   }
 }
 
+function addCategory(manager, categoryName) {
+  try {
+    manager.addCategory(categoryName);
+    console.log(`Successfully added ${categoryName} as a new category.`);
+  } catch(error) {
+    console.log(`Did not add ${categoryName}: ${error.message}`);
+  }
+}
+
 // Usage:
 // > Test Dates
 const today = new Date();
@@ -65,39 +74,39 @@ removeExpense(manager, 5);  // Logs 'Expense #5 successfully removed.'
 manager.logSummary(); // Logs Count = 2, Total = 45.00, Average: 22.50
 
 
-// // Filtering Expenses
-// console.log('Filtering Expenses ======================================================');
-// // > By Date
+// Filtering Expenses
+console.log('\nFiltering Expenses ======================================================');
+// > By Date
+manager.addExpense(120, lastWeek, 'Health');        // #8
+manager.addExpense(25,  lastWeek, 'Entertainment'); // #9
 
-// manager.addExpense(120, lastWeek, 'Health');        // #8
-// manager.addExpense(25,  lastWeek, 'Entertainment'); // #9
+let last6DayExpenses = manager.filterByDateRange(sixDaysAgo, today);
+console.log(last6DayExpenses.length); // 2
 
-// let last6DayExpenses = manager.filterByDateRange(sixDaysAgo, today);
-// console.log(last6DayExpenses.length); // 2
-
-// // > By Category
-// let healthExpenses = manager.filterByCategory('Health');
-// console.log(healthExpenses.length);   // 2
-// let noExpenses = manager.filterByCategory('??');
-// console.log(noExpenses.length);       // 0
+// > By Category
+let healthExpenses = manager.filterByCategory('Health');
+console.log(healthExpenses.length);   // 2
+let noExpenses = manager.filterByCategory('??');
+console.log(noExpenses.length);       // 0
 
 
 // // Categories
-// console.log('Categories ======================================================');
-// console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+console.log('\nCategories ======================================================');
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
 
-// // - Cannot add an empty category
-// manager.addCategory('  '); //=> Logs 'Category name cannot be empty.'
-// console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
-// // - Cannot add a duplicate category
-// manager.addCategory('Food'); //=> Logs "Category 'Food' already exists."
-// console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+// - Cannot add an empty category
+addCategory(manager, '  '); // Did not add '  ': Category name cannot be empty.
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
 
-// // - Successfully adding a new category
-// manager.addCategory('Bills');    //=> Logs 'Successfully added Bills as a new category.'
-// console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health', 'Bills']
-// // - Can then add Bill expenses
-// manager.addExpense(10, today, 'Bills'); // #10 (Successfully added expense!)
+// - Cannot add a duplicate category
+addCategory(manager, 'Food'); //=> Did not add Food: Category 'Food' already exists.
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health']
+
+// - Successfully adding a new category
+addCategory(manager, 'Bills');    //=> Logs 'Successfully added Bills as a new category.'
+console.log(manager.categories); //=> ['Food', 'Housing', 'Transportation', 'Entertainment', 'Health', 'Bills']
+// - Can then add Bill expenses
+addExpense(manager, 10, today, 'Bills'); // Successfully added expense. #10
 
 
 // Budget Expense Manager

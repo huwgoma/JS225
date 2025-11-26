@@ -59,11 +59,11 @@ class ExpenseManager {
   }
 
   addCategory(newCategory) {
-    if (this.#categories.includes(newCategory)) return console.log(`Category '${newCategory}' already exists.`);
-    if (newCategory.trim().length === 0) return console.log('Category name cannot be empty.');
+    if (this.#categories.includes(newCategory)) throw new Error(`Category '${newCategory}' already exists.`);
+    if (newCategory.trim().length === 0) throw new Error('Category name cannot be empty.');
 
     this.#categories.push(newCategory);
-    console.log(`Successfully added ${newCategory} as a new category.`);
+    return newCategory;
   }
 
   // Helpers
