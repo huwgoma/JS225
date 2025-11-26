@@ -20,7 +20,7 @@ class Expense {
   // Getters
   get id()       { return this.#id }
   get amount()   { return this.#amount }
-  get date()     { return this.#date }
+  get date()     { return new Date(this.#date) }
   get category() { return this.#category }
 
   // Expense Validation
@@ -53,7 +53,7 @@ class Expense {
     return amount > 0;
   }
 
-  // Category needs additional inclusion validation at the Expense Manager level 
+  // Category needs to be validated for inclusion at the Expense Manager level
   #categoryIsValid(category) {
     if (typeof category !== 'string') return false;
 

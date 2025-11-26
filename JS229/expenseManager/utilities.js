@@ -10,6 +10,6 @@ const Utilities = {
   toFixNum(number, decimalPlaces) {
     return Number(number.toFixed(decimalPlaces));
   }
-}
+};
 
 module.exports = Utilities;

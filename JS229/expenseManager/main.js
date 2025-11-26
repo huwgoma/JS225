@@ -2,14 +2,12 @@ const ExpenseManager = require('./expenseManager');
 const BudgetExpenseManager = require('./budgetExpenseManager');
 
 
-
-
 // Wrapper Methods
 function addExpense(manager, amount, date, category) {
-  try { 
+  try {
     manager.addExpense(amount, date, category);
     console.log('Expense successfully added.');
-  } catch(error) {
+  } catch (error) {
     console.log(`Expense was not added: ${error.message}`);
   }
 }
@@ -18,7 +16,7 @@ function removeExpense(manager, expenseID) {
   try {
     manager.removeExpense(expenseID);
     console.log(`Expense #${expenseID} successfully removed.`);
-  } catch(error) { 
+  } catch (error) {
     console.log(`Expense not removed: ${error.message}`);
   }
 }
@@ -27,7 +25,7 @@ function addCategory(manager, categoryName) {
   try {
     manager.addCategory(categoryName);
     console.log(`Successfully added ${categoryName} as a new category.`);
-  } catch(error) {
+  } catch (error) {
     console.log(`Did not add ${categoryName}: ${error.message}`);
   }
 }
@@ -120,8 +118,12 @@ addExpense(budgetManager, 45, lastWeek, 'Health');       // Expense successfully
 budgetManager.logSummary(); // logs Count = 3, Total = 495, Avg = 165, Budget = 5/500
 
 // // - Same filtering capabilities
-// console.log(budgetManager.filterByDateRange(sixDaysAgo, today).map(e => e.category)); // [Entertainment, Food] 
-// console.log(budgetManager.filterByCategory('Food').map(e => e.category)); // [ Food ]
+console.log(budgetManager.filterByDateRange(sixDaysAgo, today)
+  .map(expense => expense.category));
+// [Entertainment, Food]
+console.log(budgetManager.filterByCategory('Food')
+  .map(expense => expense.category));
+// [ Food ]
 
 // Can't go over budget
 addExpense(budgetManager, 10, today, 'Health'); // Expense was not added: Budget exceeded!

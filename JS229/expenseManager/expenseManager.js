@@ -9,12 +9,12 @@ class ExpenseManager {
 
   get expenses()   { return this.#expenses.slice() }
   get categories() { return this.#categories.slice() }
-  get summary() { 
+  get summary() {
     return {
       count:   this.#expenses.length,
       total:   Utilities.toFixNum(this.sumOfExpenses(), 2),
       average: Utilities.toFixNum(this.#averageExpense(), 2),
-    }
+    };
   }
 
   logSummary() {

@@ -5,7 +5,7 @@ class BudgetExpenseManager extends ExpenseManager {
   #totalBudget;
 
   get remainingBudget() { return this.#totalBudget - this.sumOfExpenses() }
-  get summary() { 
+  get summary() {
     let expenseSummary = super.summary;
     expenseSummary.remainingBudget = Utilities.toFixNum(this.remainingBudget, 2);
     expenseSummary.totalBudget = Utilities.toFixNum(this.#totalBudget, 2);
@@ -15,8 +15,8 @@ class BudgetExpenseManager extends ExpenseManager {
   constructor(limit) {
     if (typeof limit !== 'number' || Number.isNaN(limit) || limit <= 0) {
       throw new Error('Budget limit must be a positive number.');
-    } 
-    
+    }
+
     super();
     this.#totalBudget = limit;
   }
@@ -25,7 +25,7 @@ class BudgetExpenseManager extends ExpenseManager {
     super.logSummary();
     console.log(`Budget Remaining:   $${this.summary.remainingBudget}/$${this.summary.totalBudget}`);
   }
-  
+
   addExpense(amount, date, category) {
     if (this.remainingBudget - amount < 0) {
       throw new Error('Budget exceeded!');
